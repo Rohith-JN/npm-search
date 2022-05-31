@@ -70,6 +70,11 @@
         padding-top: 3.5px;
         position: absolute;
         right: 20px;
+        transition: 0.5s;
+    }
+
+    a:hover {
+        color: rgb(92, 92, 92);
     }
 }
 

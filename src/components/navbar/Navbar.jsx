@@ -22,7 +22,10 @@ function Navbar() {
           spellCheck="false"
         ></input>
       </div>
-      <a href="https://github.com/Rohith-JN/npm_search">
+      <a
+        href="https://github.com/Rohith-JN/npm_search"
+        title="View project on Github"
+      >
         <BsGithub
           style={{
             width: '40px',
