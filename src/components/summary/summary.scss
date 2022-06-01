@@ -67,9 +67,8 @@
 
     .codeBlock {
         background-color: #1f2937;
-        width: 400px;
+        width: 60%;
         max-width: 400px;
-        min-width: 100px;
         height: 50px;
         padding-left: 20px;
         margin-right: 20px;
@@ -90,12 +89,23 @@
             outline: none;
             border-color: transparent;
             border-radius: 6px;
-            transition: 0.5s ease-in-out;
+            cursor: pointer;
         }
     }
 
     p.downloads,
     p.keywords {
         letter-spacing: .25px;
+    }
+}
+
+@media screen and (max-width: 1079px) {
+    .summary {
+
+        .codeBlock {
+            button.copy {
+                display: none;
+            }
+        }
     }
 }

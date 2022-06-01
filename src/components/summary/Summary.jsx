@@ -1,7 +1,16 @@
 import React from 'react';
 import './summary.scss';
 
-function Summary() {
+function Summary({
+  heading,
+  version,
+  description,
+  license,
+  npm,
+  github,
+  downloads,
+  keywords,
+}) {
   const changeColor = (e) => {
     const button = document.querySelector('.copy');
     button.style.backgroundColor = 'lightgreen';
@@ -17,35 +26,33 @@ function Summary() {
   return (
     <div className="summary" id="summary">
       <div className="row-1">
-        <h1>react</h1>
-        <p>v18.1.0</p>
+        <h1>{heading}</h1>
+        <p>v{version}</p>
       </div>
-      <p className="description">
-        React is a JavaScript library for building user interfaces.
-      </p>
+      <p className="description">{description}</p>
       <div className="row-2">
-        <p>MIT</p>
+        <p>{license}</p>
         <div className="line"></div>
-        <a href="https://www.npmjs.com/package/react">
+        <a href={npm}>
           <p>NPM</p>
         </a>
         <div className="line"></div>
-        <a href="https://github.com/facebook/react">
+        <a href={github}>
           <p>Github</p>
         </a>
       </div>
-      <p className="downloads">Weekly downloads: 14,935,912</p>
+      <p className="downloads">Total downloads: {downloads}</p>
       <div className="codeBlock">
         <pre>
           <code className="lang-json" id="text">
-            npm install react
+            npm install {heading}
           </code>
         </pre>
         <button className="copy" onClick={changeColor}>
           Copy
         </button>
       </div>
-      <p className="keywords">Keywords: react</p>
+      <p className="keywords">Keywords: {keywords}</p>
     </div>
   );
 }
