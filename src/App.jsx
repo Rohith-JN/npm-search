@@ -1,13 +1,16 @@
 import './App.css';
 import Main from './components/main/Main';
 import Navbar from './components/navbar/Navbar';
+import React, { useState } from 'react';
 
 function App() {
+  const [input, setInput] = useState(null);
+
   return (
     <div className="App">
-      <Navbar />
+      <Navbar setInput={setInput} />
       <div className="sections">
-        <Main />
+        <Main input={input} />
       </div>
     </div>
   );

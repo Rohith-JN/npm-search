@@ -43,12 +43,14 @@
         align-items: center;
         justify-content: space-between;
         border-radius: 6px;
+        
 
         img {
             filter: invert(36%) sepia(2%) saturate(1097%) hue-rotate(173deg) brightness(100%) contrast(85%);
             margin-left: 27px;
             height: 27px;
             width: auto;
+            cursor: pointer;
         }
 
         input {
