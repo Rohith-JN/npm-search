@@ -4,7 +4,7 @@ import Navbar from './components/navbar/Navbar';
 import React, { useState } from 'react';
 
 function App() {
-  const [input, setInput] = useState(null);
+  const [input, setInput] = useState('react');
 
   return (
     <div className="App">

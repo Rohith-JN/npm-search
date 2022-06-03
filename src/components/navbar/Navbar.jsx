@@ -7,7 +7,8 @@ import { BsGithub } from 'react-icons/bs';
 function Navbar({ setInput }) {
   const inputRef = useRef();
 
-  const submitHandler = () => {
+  const submitHandler = (e) => {
+    e.preventDefault();
     setInput(inputRef.current.value);
     inputRef.current.value = '';
   };

@@ -8,6 +8,7 @@ function Main({ input }) {
   const [loading, setLoading] = useState(true);
 
   const fetchPackageInfo = async (input) => {
+    setLoading(true);
     const response = await fetch(`https://api.npms.io/v2/package/${input}`);
     const data = await response.json();
     setPackageInfo(data);
