@@ -9,8 +9,10 @@ function Navbar({ setInput }) {
 
   const submitHandler = (e) => {
     e.preventDefault();
-    setInput(inputRef.current.value);
-    inputRef.current.value = '';
+    if (inputRef.current.value) {
+      setInput(inputRef.current.value);
+      inputRef.current.value = '';
+    }
   };
 
   return (
