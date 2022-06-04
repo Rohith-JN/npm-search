@@ -1,10 +1,23 @@
 import './App.css';
-import Main from './components/main/Main';
+import Main from './components/main_page/Main';
 import Navbar from './components/navbar/Navbar';
-import React, { useState } from 'react';
+import Home from './components/home_page/Home';
+import React, { useState, useEffect } from 'react';
 
 function App() {
-  const [input, setInput] = useState('');
+  const [input, setInput] = useState(
+    sessionStorage.getItem('input') ? sessionStorage.getItem('input') : ''
+  );
+
+  useEffect(() => {
+    if (sessionStorage.getItem('input')) {
+      setInput(sessionStorage.getItem('input'));
+    }
+  }, []);
+
+  useEffect(() => {
+    window.sessionStorage.setItem('input', input);
+  }, [input]);
 
   return (
     <div className="App">
@@ -13,17 +26,7 @@ function App() {
         {input ? (
           <Main input={input} />
         ) : (
-          <h1
-            style={{
-              color: 'black',
-              position: 'absolute',
-              top: '46%',
-              left: '50%',
-              transform: 'translate(-50%, -50%)',
-            }}
-          >
-            Search for a NPM package
-          </h1>
+          <Home setInput={setInput} />
         )}
       </div>
     </div>
