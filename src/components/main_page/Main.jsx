@@ -2,12 +2,14 @@ import React, { useState, useEffect } from 'react';
 import './main.scss';
 import Summary from '../summary/Summary';
 import Loader from '../loader/Loader';
-import Error from '../Error/Error';
+import Error from '../error_page/Error';
 
 function Main({ input }) {
   const [packageInfo, setPackageInfo] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
+  const [errorCode, setErrorCode] = useState('');
 
   const fetchPackageInfo = async (input) => {
     setLoading(true);
@@ -15,6 +17,10 @@ function Main({ input }) {
     const data = await response.json();
     if (response.status === 200) {
       setError(false);
+    } else if (response.status !== 200) {
+      setError(true);
+      setErrorMessage(data.message);
+      setErrorCode(response.status);
     } else {
       setError(true);
     }
@@ -22,6 +28,7 @@ function Main({ input }) {
     setPackageInfo(data);
     setLoading(false);
   };
+
   useEffect(() => {
     fetchPackageInfo(input);
   }, [input]);
@@ -33,7 +40,7 @@ function Main({ input }) {
       ) : (
         <div className="Main" id="Main">
           {error ? (
-            <Error />
+            <Error errorCode={errorCode} errorMessage={errorMessage} />
           ) : (
             <div className="row">
               <Summary
