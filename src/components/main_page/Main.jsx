@@ -3,26 +3,31 @@ import './main.scss';
 import Summary from '../summary/Summary';
 import Loader from '../loader/Loader';
 import Error from '../error_page/Error';
+import { LineChart } from '../lineChart/LineChart';
 
 function Main({ input }) {
   const [packageInfo, setPackageInfo] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(false);
-  const [errorMessage, setErrorMessage] = useState('');
-  const [errorCode, setErrorCode] = useState('');
+  const [error, setError] = useState({
+    error: false,
+    errorMessage: '',
+    errorCode: '',
+  });
 
   const fetchPackageInfo = async (input) => {
     setLoading(true);
     const response = await fetch(`https://api.npms.io/v2/package/${input}`);
     const data = await response.json();
     if (response.status === 200) {
-      setError(false);
+      setError({ error: false });
     } else if (response.status !== 200) {
-      setError(true);
-      setErrorMessage(data.message);
-      setErrorCode(response.status);
+      setError({
+        error: true,
+        errorMessage: data.message,
+        errorCode: response.status,
+      });
     } else {
-      setError(true);
+      setError({ error: true });
     }
 
     setPackageInfo(data);
@@ -39,8 +44,11 @@ function Main({ input }) {
         <Loader />
       ) : (
         <div className="Main" id="Main">
-          {error ? (
-            <Error errorCode={errorCode} errorMessage={errorMessage} />
+          {error.error ? (
+            <Error
+              errorCode={error.errorCode}
+              errorMessage={error.errorMessage}
+            />
           ) : (
             <div className="row">
               <Summary
@@ -59,6 +67,7 @@ function Main({ input }) {
                 ).toLocaleString()}
                 keywords={packageInfo.collected.metadata.keywords.join(', ')}
               />
+              <LineChart input={input} />
             </div>
           )}
         </div>
