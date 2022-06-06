@@ -4,6 +4,8 @@ import Summary from '../summary/Summary';
 import Loader from '../loader/Loader';
 import Error from '../error_page/Error';
 import LineChart from '../lineChart/LineChart';
+import LineChart2 from '../lineChart2/LineChart2';
+import PackageInfo from '../Package_info/PackageInfo';
 
 interface MainProps {
   input: string;
@@ -56,6 +58,7 @@ const Main:FC<MainProps> = ({ input }) => {
               errorMessage={error.errorMessage}
             />
           ) : (
+            <div className='main-container'>
             <div className="row">
               <Summary
                 heading={packageInfo.collected.metadata.name}
@@ -74,6 +77,17 @@ const Main:FC<MainProps> = ({ input }) => {
                 keywords={packageInfo.collected.metadata.keywords.join(', ')}
               />
               <LineChart input={input} />
+            </div>
+            <div className="row1">
+              <LineChart2 input={input} />
+              <PackageInfo 
+                stars={packageInfo.collected.github.starsCount}
+                forks={packageInfo.collected.github.forksCount} 
+                issues={packageInfo.collected.github.issues.openCount} 
+                contributors={packageInfo.collected.github.contributors.length} 
+                maintainers={packageInfo.collected.metadata.maintainers.length} 
+              />
+            </div>
             </div>
           )}
         </div>
