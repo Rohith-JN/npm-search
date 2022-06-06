@@ -6,6 +6,7 @@ import Error from '../error_page/Error';
 import LineChart from '../lineChart/LineChart';
 import LineChart2 from '../lineChart2/LineChart2';
 import PackageInfo from '../Package_info/PackageInfo';
+import Readme from '../Readme/Readme';
 
 interface MainProps {
   input: string;
@@ -87,6 +88,9 @@ const Main:FC<MainProps> = ({ input }) => {
                 contributors={packageInfo.collected.github.contributors.length} 
                 maintainers={packageInfo.collected.metadata.maintainers.length} 
               />
+            </div>
+            <div className="row2">
+              <Readme input={input} owner={'facebook'} />
             </div>
             </div>
           )}

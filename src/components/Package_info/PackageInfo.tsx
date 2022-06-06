@@ -16,23 +16,23 @@ const PackageInfo:FC<PackageInfoProps> = ({stars, forks, issues, contributors, m
       <div className="header"><h1>Package</h1></div>
        <div className="main-row">
             <p>Stars:</p>
-            <p>{stars}</p>
+            <p className='info'>{stars}</p>
         </div>
         <div className="main-row">
             <p>Forks:</p>
-            <p>{forks}</p>
+            <p className='info'>{forks}</p>
         </div>
         <div className="main-row">
             <p>Issues:</p>
-            <p>{issues}</p>
+            <p className='info'>{issues}</p>
         </div>
         <div className="main-row">
             <p>Contributors:</p>
-            <p>{contributors}</p>
+            <p className='info' >{contributors}</p>
         </div>
         <div className="last-row">
             <p>Maintainers:</p>
-            <p>{maintainers}</p>
+            <p className='info'>{maintainers}</p>
         </div>
       </div>
   );
