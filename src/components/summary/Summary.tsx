@@ -1,7 +1,19 @@
-import React from 'react';
+import React, { useRef, FC } from 'react';
 import './summary.scss';
+import copy from "copy-to-clipboard";  
 
-function Summary({
+interface SummaryProps {
+  heading: string;
+  version: number;
+  description: string;
+  license: string;
+  npm: string;
+  github: string;
+  downloads: string;
+  keywords: string[];
+}
+
+const Summary:FC<SummaryProps> = ({
   heading,
   version,
   description,
@@ -10,18 +22,20 @@ function Summary({
   github,
   downloads,
   keywords,
-}) {
-  const changeColor = (e) => {
-    const button = document.querySelector('.copy');
-    button.style.backgroundColor = 'lightgreen';
-    button.innerHTML = 'Copied';
-    const text = document.querySelector('#text');
-    navigator.clipboard.writeText(text.innerHTML);
+})  => {
+  const text = useRef<HTMLDivElement>(null);
+  const button = useRef<HTMLButtonElement>(null);
+
+  const handleCopyText = () => {
+    copy(text.current!.innerText);
+    button.current!.innerText = 'Copied';
+    button.current!.style.backgroundColor = 'lightgreen';
+    navigator.clipboard.writeText(text.current!.innerText);
     setTimeout(() => {
-      button.style.backgroundColor = 'white';
-      button.innerHTML = 'Copy';
+      button.current!.style.backgroundColor = 'white';
+      button.current!.innerText = 'Copy';
     }, 1500);
-  };
+ } 
 
   return (
     <div className="summary" id="summary">
@@ -44,11 +58,11 @@ function Summary({
       <p className="downloads">Total downloads: {downloads}</p>
       <div className="codeBlock">
         <pre>
-          <code className="lang-json" id="text">
+          <code className="lang-json" id="text" ref={text}>
             npm install {heading}
           </code>
         </pre>
-        <button className="copy" onClick={changeColor}>
+        <button className="copy" onClick={handleCopyText} ref={button}>
           Copy
         </button>
       </div>

@@ -1,17 +1,21 @@
-import React, { useRef } from 'react';
+import React, { useRef, FC } from 'react';
 import './navbar.scss';
 import logo from '../../assets/logo.png';
 import search from '../../assets/search.svg';
 import { BsGithub } from 'react-icons/bs';
 
-function Navbar({ setInput }) {
-  const inputRef = useRef();
+interface NavbarProps {
+  setInput: any
+}
 
-  const submitHandler = (e) => {
+const Navbar:FC<NavbarProps> = ({ setInput }) => {
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  const submitHandler = (e: { preventDefault: () => void; }) => {
     e.preventDefault();
-    if (inputRef.current.value) {
-      setInput(inputRef.current.value);
-      inputRef.current.value = '';
+    if (inputRef.current!.value) {
+      setInput(inputRef.current!.value);
+      inputRef.current!.value = '';
     }
   };
 

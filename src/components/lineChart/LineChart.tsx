@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, FC } from 'react';
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -23,8 +23,12 @@ ChartJS.register(
   Legend
 );
 
-export function LineChart({ input }) {
-  const options = {
+interface LineChartProps {
+  input: string;
+}
+
+const LineChart:FC<LineChartProps> = ({ input }) => {
+  const options:any = {
     bezierCurve: true,
     responsive: true,
     plugins: {
@@ -39,11 +43,11 @@ export function LineChart({ input }) {
   };
 
   const data = {
-    labels: [],
+    labels: [] as any[],
     datasets: [
       {
         label: '',
-        data: [],
+        data: [] as any [],
         fill: true,
         backgroundColor: 'rgba(75,192,192,0.2)',
         borderColor: 'rgba(75,192,192,1)',
@@ -59,20 +63,20 @@ export function LineChart({ input }) {
   const [error, setError] = useState({
     error: false,
     errorMessage: '',
-    errorCode: '',
+    errorCode: 200,
   });
 
-  const fetchPackageInfo = async (input) => {
+  const fetchPackageInfo = async (input: string) => {
     const response = await fetch(
       `https://api.npmjs.org/downloads/range/last-week/${input}`
     );
     const data = await response.json();
     setChartData({
-      labels: data.downloads.map((item) => item.day),
-      data: data.downloads.map((item) => item.downloads),
+      labels: data.downloads.map((item: any) => item.day),
+      data: data.downloads.map((item: any) => item.downloads),
     });
     if (response.status === 200) {
-      setError({ error: false });
+      setError({ error: false, errorMessage: '', errorCode: 200 });
     } else if (response.status !== 200) {
       setError({
         error: true,
@@ -80,7 +84,9 @@ export function LineChart({ input }) {
         errorCode: response.status,
       });
     } else {
-      setError({ error: true });
+      setError({ error: true,
+        errorMessage: data.message,
+        errorCode: response.status, });
     }
   };
 
@@ -102,3 +108,5 @@ export function LineChart({ input }) {
     </div>
   );
 }
+
+export default LineChart;

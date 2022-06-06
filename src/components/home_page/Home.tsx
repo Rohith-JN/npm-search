@@ -1,11 +1,18 @@
-import React, { useRef } from 'react';
+import React, { useRef, FC } from 'react';
 import './home.scss';
 import search from '../../assets/search.svg';
+import copy from "copy-to-clipboard";  
 
-function Home({ setInput }) {
-  const inputRef = useRef();
+interface HomeProps {
+  setInput: any;
+}
 
-  const submitHandler = (e) => {
+const Home:FC<HomeProps> = ({ setInput }) => {
+  const button = useRef<HTMLButtonElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
+  const text = useRef<HTMLDivElement>(null);
+
+  const submitHandler = (e: { preventDefault: () => void; }) => {
     e.preventDefault();
     if (inputRef.current.value) {
       setInput(inputRef.current.value);
@@ -13,17 +20,16 @@ function Home({ setInput }) {
     }
   };
 
-  const changeColor = (e) => {
-    const button = document.querySelector('.copy');
-    button.style.backgroundColor = 'lightgreen';
-    button.innerHTML = 'Copied';
-    const text = document.querySelector('#text');
-    navigator.clipboard.writeText(text.innerHTML);
+  const handleCopyText = () => {
+    copy(text.current!.innerText);
+    button.current!.innerText = 'Copied';
+    button.current!.style.backgroundColor = 'lightgreen';
+    navigator.clipboard.writeText(text.current!.innerText);
     setTimeout(() => {
-      button.style.backgroundColor = 'white';
-      button.innerHTML = 'Copy';
+      button.current!.style.backgroundColor = 'white';
+      button.current!.innerText = 'Copy';
     }, 1500);
-  };
+ } 
 
   return (
     <div className="Home" id="Home">
@@ -73,11 +79,11 @@ function Home({ setInput }) {
           <p className="downloads">Total downloads: 671,939,803</p>
           <div className="codeBlock">
             <pre>
-              <code className="lang-json" id="text">
+              <code className="lang-json" id="text" ref={text}>
                 npm install react
               </code>
             </pre>
-            <button className="copy" onClick={changeColor}>
+            <button className="copy" onClick={handleCopyText} ref={button}>
               Copy
             </button>
           </div>
