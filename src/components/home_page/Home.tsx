@@ -55,6 +55,7 @@ const Home:FC<HomeProps> = ({ setInput }) => {
         <p className="Examples">
           Examples: react, node, angular, vue, svelte, nodemon
         </p>
+        <p className='disclaimer'>The npm package download data comes from npm's download counts api and package details come from npms.io.</p>
       </div>
       <div className="right">
         <div className="summary" id="summary">

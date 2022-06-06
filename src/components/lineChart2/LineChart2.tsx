@@ -10,7 +10,7 @@ import {
   Legend,
 } from 'chart.js';
 import { Line } from 'react-chartjs-2';
-import './lineChart.scss';
+import './lineChart2.scss';
 import Error from '../error_page/Error';
 
 ChartJS.register(
@@ -18,7 +18,7 @@ ChartJS.register(
   LinearScale,
   PointElement,
   LineElement,
-  Title,
+  Title, 
   Tooltip,
   Legend
 );
@@ -27,7 +27,7 @@ interface LineChartProps {
   input: string;
 }
 
-const LineChart:FC<LineChartProps> = ({ input }) => {
+const LineChart2:FC<LineChartProps> = ({ input }) => {
   const options:any = {
     bezierCurve: true,
     responsive: true,
@@ -37,7 +37,7 @@ const LineChart:FC<LineChartProps> = ({ input }) => {
       },
       title: {
         display: true,
-        text: 'Downloads last week',
+        text: 'Downloads last month',
       },
     },
   };
@@ -69,11 +69,11 @@ const LineChart:FC<LineChartProps> = ({ input }) => {
 
   const fetchPackageInfo = async (input: string) => {
     const response = await fetch(
-      `https://api.npmjs.org/downloads/range/last-week/${input}`
+      `https://api.npmjs.org/downloads/range/last-month/${input}`
     );
     const data = await response.json();
     setChartData({
-      labels: data.downloads.map((item: any) => item.day),
+      labels: data.downloads.map((item: any) => String(item.day).slice(-2)),
       data: data.downloads.map((item: any) => item.downloads),
     });
     if (response.status === 200) {
@@ -100,14 +100,14 @@ const LineChart:FC<LineChartProps> = ({ input }) => {
   data.datasets[0].label = input;
 
   return (
-    <div className="LineChart" id="LineChart">
+    <div className="LineChart2" id="LineChart2">
       {error.error ? (
         <Error errorCode={error.errorCode} errorMessage={error.errorMessage} />
       ) : (
-        <Line options={options} data={data} />
+        <Line options={options} data={data}/>
       )}
     </div>
   );
 }
 
-export default LineChart;
+export default LineChart2;
