@@ -3,7 +3,6 @@ import './readme.scss';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import rehypeRaw from 'rehype-raw';
-import remarkMdx from 'remark-mdx';
 import remarkToc from 'remark-toc';
 import rehypeHighlight from 'rehype-highlight';
 import remarkSlug from 'remark-slug';
@@ -11,11 +10,11 @@ import remarkEmoji from 'remark-emoji';
 import remarkMath from 'remark-math';
 
 interface ReadmeProps {
-    input: string;
+    repo: string;
     owner: string;
 }
 
-const Readme: FC<ReadmeProps> = ({ owner, input }) => {
+const Readme: FC<ReadmeProps> = ({ owner, repo }) => {
     const [url, seturl] = useState('');
     const [readme, setReadme] = useState('');
 
@@ -28,9 +27,9 @@ const Readme: FC<ReadmeProps> = ({ owner, input }) => {
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    const fetchURL = async (owner: string, input: string) => {
+    const fetchURL = async (owner: string, repo: string) => {
         const response = await fetch(
-            `https://api.github.com/repos/${owner}/${input}/readme`
+            `https://api.github.com/repos/${owner}/${repo}/readme`
         );
         const data = await response.json();
         seturl(data.download_url);
@@ -43,18 +42,17 @@ const Readme: FC<ReadmeProps> = ({ owner, input }) => {
     };
 
     useEffect(() => {
-        fetchURL(owner, input);
-    }, [owner, input, fetchURL]);
+        fetchURL(owner, repo);
+    }, [owner, repo, fetchURL]);
 
     return (
         <div className='Readme' id='Readme'>
             <ReactMarkdown children={readme} remarkPlugins={[
                 remarkGfm,
-                remarkToc,
                 remarkMath,
-                remarkMdx,
+                remarkToc,
                 remarkEmoji,
-                remarkSlug
+                remarkSlug,
             ]} rehypePlugins={[
                 rehypeRaw,
                 rehypeHighlight

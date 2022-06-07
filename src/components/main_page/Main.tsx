@@ -92,7 +92,7 @@ const Main: FC<MainProps> = ({ input }) => {
                 />
               </div>
               <div className="row2">
-                <Readme input={input} owner={packageInfo.collected.metadata.links.repository.split('/')[3]} />
+                <Readme repo={packageInfo.collected.metadata.links.repository.split('/')[4]} owner={packageInfo.collected.metadata.links.repository.split('/')[3]} />
               </div>
             </div>
           )}
