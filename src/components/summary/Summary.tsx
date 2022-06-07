@@ -1,6 +1,6 @@
 import React, { useRef, FC } from 'react';
 import './summary.scss';
-import copy from "copy-to-clipboard";  
+import copy from "copy-to-clipboard";
 
 interface SummaryProps {
   heading: string;
@@ -13,7 +13,7 @@ interface SummaryProps {
   keywords: string[];
 }
 
-const Summary:FC<SummaryProps> = ({
+const Summary: FC<SummaryProps> = ({
   heading,
   version,
   description,
@@ -22,7 +22,7 @@ const Summary:FC<SummaryProps> = ({
   github,
   downloads,
   keywords,
-})  => {
+}) => {
   const text = useRef<HTMLDivElement>(null);
   const button = useRef<HTMLButtonElement>(null);
 
@@ -35,7 +35,7 @@ const Summary:FC<SummaryProps> = ({
       button.current!.style.backgroundColor = 'white';
       button.current!.innerText = 'Copy';
     }, 1500);
- } 
+  }
 
   return (
     <div className="summary" id="summary">

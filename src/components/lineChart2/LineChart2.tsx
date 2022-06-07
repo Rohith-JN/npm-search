@@ -18,7 +18,7 @@ ChartJS.register(
   LinearScale,
   PointElement,
   LineElement,
-  Title, 
+  Title,
   Tooltip,
   Legend
 );
@@ -27,8 +27,8 @@ interface LineChartProps {
   input: string;
 }
 
-const LineChart2:FC<LineChartProps> = ({ input }) => {
-  const options:any = {
+const LineChart2: FC<LineChartProps> = ({ input }) => {
+  const options: any = {
     bezierCurve: true,
     responsive: true,
     plugins: {
@@ -47,7 +47,7 @@ const LineChart2:FC<LineChartProps> = ({ input }) => {
     datasets: [
       {
         label: '',
-        data: [] as any [],
+        data: [] as any[],
         pointRadius: 0,
         fill: true,
         backgroundColor: 'rgba(75,192,192,0.2)',
@@ -85,9 +85,11 @@ const LineChart2:FC<LineChartProps> = ({ input }) => {
         errorCode: response.status,
       });
     } else {
-      setError({ error: true,
+      setError({
+        error: true,
         errorMessage: data.message,
-        errorCode: response.status, });
+        errorCode: response.status,
+      });
     }
   };
 
@@ -104,7 +106,7 @@ const LineChart2:FC<LineChartProps> = ({ input }) => {
       {error.error ? (
         <Error errorCode={error.errorCode} errorMessage={error.errorMessage} />
       ) : (
-        <Line options={options} data={data}/>
+        <Line options={options} data={data} />
       )}
     </div>
   );

@@ -1,13 +1,13 @@
 import React, { useRef, FC } from 'react';
 import './home.scss';
 import search from '../../assets/search.svg';
-import copy from "copy-to-clipboard";  
+import copy from "copy-to-clipboard";
 
 interface HomeProps {
   setInput: any;
 }
 
-const Home:FC<HomeProps> = ({ setInput }) => {
+const Home: FC<HomeProps> = ({ setInput }) => {
   const button = useRef<HTMLButtonElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const text = useRef<HTMLDivElement>(null);
@@ -29,7 +29,7 @@ const Home:FC<HomeProps> = ({ setInput }) => {
       button.current!.style.backgroundColor = 'white';
       button.current!.innerText = 'Copy';
     }, 1500);
- } 
+  }
 
   return (
     <div className="Home" id="Home">
@@ -53,7 +53,7 @@ const Home:FC<HomeProps> = ({ setInput }) => {
           </div>
         </form>
         <p className="Examples">
-          Examples: react, node, angular, vue, svelte, nodemon
+          Examples: react, angular, vue, svelte, nodemon
         </p>
         <p className='disclaimer'>The npm package download data comes from npm's download counts api and package details come from npms.io.</p>
       </div>

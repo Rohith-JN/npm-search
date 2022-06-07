@@ -6,7 +6,7 @@ interface ErrorProps {
   errorMessage: string;
 }
 
-const Error:FC<ErrorProps> = ({errorCode, errorMessage}) => {
+const Error: FC<ErrorProps> = ({ errorCode, errorMessage }) => {
   return (
     <main className="container">
       <span className="particle">4</span>

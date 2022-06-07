@@ -8,7 +8,7 @@ interface NavbarProps {
   setInput: any
 }
 
-const Navbar:FC<NavbarProps> = ({ setInput }) => {
+const Navbar: FC<NavbarProps> = ({ setInput }) => {
   const inputRef = useRef<HTMLInputElement>(null);
 
   const submitHandler = (e: { preventDefault: () => void; }) => {
