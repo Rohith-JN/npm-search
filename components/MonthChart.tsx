@@ -11,7 +11,6 @@ import {
 } from 'chart.js';
 import { Line } from 'react-chartjs-2';
 import styles from '../styles/MonthChart.module.css';
-import Error from './error';
 
 ChartJS.register(
   CategoryScale,
@@ -104,7 +103,12 @@ const MonthChart: FC<MonthChartProps> = ({ input }) => {
   return (
     <div className={styles.MonthChart} id="MonthChart">
       {error.error ? (
-        <Error errorCode={error.errorCode} errorMessage={error.errorMessage} />
+        <article className={styles.content}>
+          <p>
+            <strong>Error ({error.errorCode})</strong>
+          </p>
+          <p>{error.errorMessage}</p>
+        </article>
       ) : (
         <Line options={options} data={data} />
       )}
