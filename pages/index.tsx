@@ -62,7 +62,7 @@ const Home: FC<HomeProps> = ({ setInput }) => {
           </div>
         </form>
         <p className={styles.Examples}>
-          Examples: react, angular, vue, svelte, nodemon
+          Examples: react, angular, vue, nodemon
         </p>
         <p className={styles.disclaimer}>The npm package download data comes from npm&#39;s download counts api and package details come from npms.io.</p>
       </div>

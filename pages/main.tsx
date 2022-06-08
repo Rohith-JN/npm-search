@@ -2,11 +2,12 @@ import React, { useState, useEffect, FC } from 'react';
 import styles from '../styles/Main.module.css';
 import Summary from '../components/Summary';
 import Loader from '../components/Loader';
-import Error from '../components/error';
+import Error from './error';
 import WeekChart from '../components/WeekChart';
 import MonthChart from '../components/MonthChart';
 import PackageInfo from '../components/PackageInfo';
 import Readme from '../components/Readme';
+import Head from 'next/head';
 
 interface MainProps {
   input: string;
@@ -62,6 +63,9 @@ const Main: FC<MainProps> = ({ input }) => {
             />
           ) : (
             <div className={styles.main_container}>
+              <Head>
+                <title>npm_search | {packageInfo.collected.metadata.name}</title>
+              </Head>
               <div className={styles.row}>
                 <Summary
                   heading={packageInfo.collected.metadata.name}
@@ -78,7 +82,6 @@ const Main: FC<MainProps> = ({ input }) => {
                     packageInfo.evaluation.popularity.downloadsCount
                   ).toLocaleString()}
                   keywords={packageInfo.collected.metadata.keywords.join(', ')}
-                  dependencies={Object.keys(packageInfo.collected.metadata.dependencies)}
                 />
                 <WeekChart input={input} />
               </div>

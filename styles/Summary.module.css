@@ -10,6 +10,7 @@
     background-color: #fff;
     border-radius: 6px;
     padding-right: 20px;
+    justify-content: center;
 }
 
 .summary .row_1 {
@@ -18,11 +19,6 @@
     align-items: center;
     gap: 10px;
     height: 30px;
-    padding-top: 60px;
-}
-
-.summary p.description {
-    padding-top: 15px;
 }
 
 .summary .row_1 h1,
@@ -102,17 +98,8 @@
 }
 
 .summary p.downloads,
-.summary p.keywords,
-.summary p.dependencies {
-    letter-spacing: 0.25px;
-}
-
-.summary p.dependencies {
-    margin-top: 20px;
-}
-
 .summary p.keywords {
-    margin-top: 0px;
+    letter-spacing: 0.25px;
 }
 
 @media screen and (max-width: 1079px) {

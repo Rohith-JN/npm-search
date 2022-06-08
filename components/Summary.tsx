@@ -11,7 +11,6 @@ interface SummaryProps {
   github: string;
   downloads: string;
   keywords: string[];
-  dependencies: string[];
 }
 
 const Summary: FC<SummaryProps> = ({
@@ -23,7 +22,6 @@ const Summary: FC<SummaryProps> = ({
   github,
   downloads,
   keywords,
-  dependencies
 }) => {
   const text = useRef<HTMLDivElement>(null);
   const button = useRef<HTMLButtonElement>(null);
@@ -68,7 +66,6 @@ const Summary: FC<SummaryProps> = ({
           Copy
         </button>
       </div>
-      <p className={styles.dependencies}>Dependencies: {dependencies}</p>
       <p className={styles.keywords}>Keywords: {keywords}</p>
     </div>
   );
