@@ -11,7 +11,6 @@ import {
 } from 'chart.js';
 import { Line } from 'react-chartjs-2';
 import '../Styles/MonthChart.scss';
-import Error from './Error';
 
 ChartJS.register(
   CategoryScale,
@@ -76,23 +75,17 @@ const MonthChart: FC<MonthChartProps> = ({ input }) => {
       }
     });
     const data = await response.json();
-    setChartData({
-      labels: data.downloads.map((item: any) => String(item.day).slice(-2)),
-      data: data.downloads.map((item: any) => item.downloads),
-    });
-    if (response.status === 200) {
-      setError({ error: false, errorMessage: '', errorCode: 200 });
-    } else if (response.status !== 200) {
+    if (data.error) {
       setError({
         error: true,
-        errorMessage: data.message,
-        errorCode: response.status,
+        errorMessage: data.errorMessage,
+        errorCode: data.errorCode,
       });
-    } else {
-      setError({
-        error: true,
-        errorMessage: data.message,
-        errorCode: response.status,
+    }
+    else {
+      setChartData({
+        labels: data.downloads.map((item: any) => String(item.day).slice(-2)),
+        data: data.downloads.map((item: any) => item.downloads),
       });
     }
   };
@@ -108,7 +101,12 @@ const MonthChart: FC<MonthChartProps> = ({ input }) => {
   return (
     <div className="MonthChart" id="MonthChart">
       {error.error ? (
-        <Error errorCode={error.errorCode} errorMessage={error.errorMessage} />
+        <article className="content">
+          <p>
+            <strong>Error ({error.errorCode})</strong>
+          </p>
+          <p>{error.errorMessage}</p>
+        </article>
       ) : (
         <Line options={options} data={data} />
       )}

@@ -11,7 +11,6 @@ import {
 } from 'chart.js';
 import { Line } from 'react-chartjs-2';
 import '../Styles/WeekChart.scss';
-import Error from './Error';
 
 ChartJS.register(
   CategoryScale,
@@ -69,26 +68,20 @@ const WeekChart: FC<WeekChartProps> = ({ input }) => {
 
   const fetchPackageInfo = async (input: string) => {
     const response = await fetch(
-      `https://api.npmjs.org/downloads/range/last-week/${input}`
+      `/charts?chart=week&package=${input}`
     );
     const data = await response.json();
-    setChartData({
-      labels: data.downloads.map((item: any) => item.day),
-      data: data.downloads.map((item: any) => item.downloads),
-    });
-    if (response.status === 200) {
-      setError({ error: false, errorMessage: '', errorCode: 200 });
-    } else if (response.status !== 200) {
+    if (data.error) {
       setError({
         error: true,
-        errorMessage: data.message,
-        errorCode: response.status,
+        errorMessage: data.errorMessage,
+        errorCode: data.errorCode,
       });
-    } else {
-      setError({
-        error: true,
-        errorMessage: data.message,
-        errorCode: response.status,
+    }
+    else {
+      setChartData({
+        labels: data.downloads.map((item: any) => item.day),
+        data: data.downloads.map((item: any) => item.downloads),
       });
     }
   };
@@ -104,7 +97,12 @@ const WeekChart: FC<WeekChartProps> = ({ input }) => {
   return (
     <div className="WeekChart" id="WeekChart">
       {error.error ? (
-        <Error errorCode={error.errorCode} errorMessage={error.errorMessage} />
+        <article className="content">
+          <p>
+            <strong>Error ({error.errorCode})</strong>
+          </p>
+          <p>{error.errorMessage}</p>
+        </article>
       ) : (
         <Line options={options} data={data} />
       )}

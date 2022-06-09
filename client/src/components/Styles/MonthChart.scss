@@ -10,3 +10,40 @@
     padding-left: 20px;
     padding-right: 20px;
 }
+
+.content {
+    position: relative;
+    width: 600px;
+    max-width: 100%;
+    margin: 20px;
+    background: white;
+    padding: 60px 40px;
+    text-align: center;
+    box-shadow: -10px 10px 67px -12px rgba(0, 0, 0, 0.2);
+    opacity: 0;
+
+    p {
+        font-size: 1.3rem;
+        margin-top: 0;
+        margin-bottom: 0.6rem;
+        letter-spacing: 0.1rem;
+        color: #595959;
+
+        &:last-child {
+            margin-bottom: 0;
+        }
+    }
+
+    button {
+        display: inline-block;
+        margin-top: 2rem;
+        padding: 0.5rem 1rem;
+        border: 3px solid #595959;
+        background: transparent;
+        font-size: 1rem;
+        color: #595959;
+        text-decoration: none;
+        cursor: pointer;
+        font-weight: bold;
+    }
+}

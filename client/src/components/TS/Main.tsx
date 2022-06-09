@@ -31,23 +31,17 @@ const Main: FC<MainProps> = ({ input }) => {
       }
     });
     const data = await response.json();
-    if (response.status === 200) {
-      setError({ error: false, errorMessage: '', errorCode: 200 });
-    } else if (response.status !== 200) {
+
+    if (data.error) {
       setError({
         error: true,
-        errorMessage: data.message,
-        errorCode: response.status,
-      });
-    } else {
-      setError({
-        error: true,
-        errorMessage: data.message,
-        errorCode: response.status,
+        errorMessage: data.errorMessage,
+        errorCode: data.errorCode,
       });
     }
-
-    setPackageInfo(data);
+    else {
+      setPackageInfo(data);
+    }
     setLoading(false);
   };
 
