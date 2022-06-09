@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import '../SCSS/Error.scss';
+import '../Styles/Error.scss';
 
 interface ErrorProps {
   errorCode: number;

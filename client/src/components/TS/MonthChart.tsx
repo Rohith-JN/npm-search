@@ -10,7 +10,7 @@ import {
   Legend,
 } from 'chart.js';
 import { Line } from 'react-chartjs-2';
-import '../SCSS/MonthChart.scss';
+import '../Styles/MonthChart.scss';
 import Error from './Error';
 
 ChartJS.register(
@@ -68,9 +68,13 @@ const MonthChart: FC<MonthChartProps> = ({ input }) => {
   });
 
   const fetchPackageInfo = async (input: string) => {
-    const response = await fetch(
-      `https://api.npmjs.org/downloads/range/last-month/${input}`
-    );
+    const response = await fetch(`/charts?chart=month&package=${input}`, {
+      method: 'GET',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      }
+    });
     const data = await response.json();
     setChartData({
       labels: data.downloads.map((item: any) => String(item.day).slice(-2)),

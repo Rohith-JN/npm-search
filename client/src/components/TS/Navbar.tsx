@@ -1,5 +1,5 @@
 import React, { useRef, FC } from 'react';
-import '../SCSS/Navbar.scss';
+import '../Styles/Navbar.scss';
 import search from '../../assets/search.svg';
 import { BsGithub } from 'react-icons/bs';
 

@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import '../SCSS/PackageInfo.scss';
+import '../Styles/PackageInfo.scss';
 
 interface PackageInfoProps {
   stars: number;

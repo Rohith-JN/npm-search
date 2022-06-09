@@ -1,5 +1,5 @@
 import React, { useRef, FC } from 'react';
-import '../SCSS/Home.scss';
+import '../Styles/Home.scss';
 import search from '../../assets/search.svg';
 import copy from "copy-to-clipboard";
 

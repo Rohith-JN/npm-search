@@ -1,0 +1,55 @@
+{
+  "name": "npm_search",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@testing-library/jest-dom": "^5.16.4",
+    "@testing-library/react": "^13.3.0",
+    "@testing-library/user-event": "^13.5.0",
+    "chart.js": "^3.8.0",
+    "react": "^18.1.0",
+    "react-chartjs-2": "^4.1.0",
+    "react-copy-to-clipboard": "^5.1.0",
+    "react-dom": "^18.1.0",
+    "react-icons": "^4.3.1",
+    "react-markdown": "^8.0.3",
+    "react-scripts": "5.0.1",
+    "rehype-highlight": "^5.0.2",
+    "rehype-raw": "^6.1.1",
+    "remark-emoji": "^3.0.2",
+    "remark-gfm": "^3.0.1",
+    "remark-math": "^5.1.1",
+    "remark-slug": "^7.0.1",
+    "remark-toc": "^8.0.1",
+    "web-vitals": "^2.1.4"
+  },
+  "proxy": "http://localhost:3005",
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "sass": "^1.52.1",
+    "typescript": "^4.7.3"
+  }
+}

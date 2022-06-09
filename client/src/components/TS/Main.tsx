@@ -1,10 +1,10 @@
 import React, { useState, useEffect, FC } from 'react';
-import '../SCSS/Main.scss';
+import '../Styles/Main.scss';
 import Summary from './Summary';
 import Loader from './Loader';
 import Error from './Error';
-import LineChart from './WeekChart';
-import LineChart2 from './MonthChart';
+import WeekChart from './WeekChart';
+import MonthChart from './MonthChart';
 import PackageInfo from './PackageInfo';
 import Readme from './Readme';
 
@@ -23,7 +23,13 @@ const Main: FC<MainProps> = ({ input }) => {
 
   const fetchPackageInfo = async (input: string) => {
     setLoading(true);
-    const response = await fetch(`https://api.npms.io/v2/package/${input}`);
+    const response = await fetch(`/packages?package=${input}`, {
+      method: 'GET',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      }
+    });
     const data = await response.json();
     if (response.status === 200) {
       setError({ error: false, errorMessage: '', errorCode: 200 });
@@ -79,10 +85,10 @@ const Main: FC<MainProps> = ({ input }) => {
                   ).toLocaleString()}
                   keywords={packageInfo.collected.metadata.keywords.join(', ')}
                 />
-                <LineChart input={input} />
+                <WeekChart input={input} />
               </div>
               <div className="row1">
-                <LineChart2 input={input} />
+                <MonthChart input={input} />
                 <PackageInfo
                   stars={packageInfo.collected.github.starsCount}
                   forks={packageInfo.collected.github.forksCount}

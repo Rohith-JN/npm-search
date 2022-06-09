@@ -1,5 +1,5 @@
 import React, { useRef, FC } from 'react';
-import '../SCSS/Summary.scss';
+import '../Styles/Summary.scss';
 import copy from "copy-to-clipboard";
 
 interface SummaryProps {

@@ -10,7 +10,7 @@ import {
   Legend,
 } from 'chart.js';
 import { Line } from 'react-chartjs-2';
-import '../SCSS/WeekChart.scss';
+import '../Styles/WeekChart.scss';
 import Error from './Error';
 
 ChartJS.register(

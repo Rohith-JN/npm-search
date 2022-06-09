@@ -1,5 +1,5 @@
 import React, { useState, FC, useEffect } from 'react';
-import '../SCSS/Readme.scss';
+import '../Styles/Readme.scss';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import rehypeRaw from 'rehype-raw';
