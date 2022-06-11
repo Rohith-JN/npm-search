@@ -1,6 +1,5 @@
 import React, { useRef, FC } from 'react';
 import '../Styles/Home.scss';
-import search from '../../assets/search.svg';
 import copy from "copy-to-clipboard";
 
 interface HomeProps {
@@ -49,7 +48,6 @@ const Home: FC<HomeProps> = ({ setInput }) => {
               id="name"
               spellCheck="false"
             ></input>
-            <img src={search} alt="search" onClick={submitHandler} />
           </div>
         </form>
         <p className="Examples">
