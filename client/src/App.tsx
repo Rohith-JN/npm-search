@@ -1,6 +1,7 @@
 import './App.css';
 import Main from './components/TS/Main';
 import Home from './components/TS/Home';
+import SideBar from './components/TS/SideBar';
 import React, { useState, useEffect } from 'react';
 
 function App() {
@@ -20,11 +21,14 @@ function App() {
 
   return (
     <div className="App">
-      {input ? (
-        <Main input={input} />
-      ) : (
-        <Home setInput={setInput} />
-      )}
+      <SideBar />
+      <div className="sections">
+        {input ? (
+          <Main input={input} />
+        ) : (
+          <Home setInput={setInput} />
+        )}
+      </div>
     </div>
   );
 }
