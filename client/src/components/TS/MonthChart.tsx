@@ -33,8 +33,12 @@ const MonthChart: FC<MonthChartProps> = ({ input }) => {
     plugins: {
       legend: {
         position: 'top',
+        labels: {
+          color: "white"
+        }
       },
       title: {
+        color: "white",
         display: true,
         text: 'Downloads last month',
       },
