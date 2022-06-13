@@ -20,3 +20,8 @@
         transition-all duration-100 scale-0 origin-left;
       }
 }
+
+::-webkit-scrollbar {
+  display: none;
+}
+

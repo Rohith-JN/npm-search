@@ -1,12 +1,7 @@
-import React, { FC } from 'react';
+import React from 'react';
 import '../Styles/Error.scss';
 
-interface ErrorProps {
-  errorCode: number;
-  errorMessage: string;
-}
-
-const Error: FC<ErrorProps> = ({ errorCode, errorMessage }) => {
+const Error = ({ errorCode, errorMessage }) => {
   return (
     <main className="container">
       <span className="particle">4</span>
