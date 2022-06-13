@@ -6,8 +6,8 @@ import { FaQuestion } from 'react-icons/fa';
 
 const SideBar = () => {
   return (
-    <div className="fixed top-0 left-0 h-screen w-16 flex flex-col
-                  bg-white dark:bg-gray-800 shadow-lg">
+    <div className="fixed top-0 left-0 h-screen w-20 flex flex-col
+                  bg-white dark:bg-gray-800 shadow-lg pt-3">
         <SideBarIcon icon={<BsGithub size="28" />} text='View on Github' />
         <SideBarIcon icon={<GoSearch size="26" />} text = 'Quick search'/>
         <SideBarIcon icon={<MdOutlineLightMode size="30"/>} text = 'Toggle light mode' />
