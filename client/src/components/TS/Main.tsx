@@ -54,7 +54,7 @@ const Main: FC<MainProps> = ({ input }) => {
       {loading ? (
         <Loader />
       ) : (
-        <div className="Main" id="Main">
+        <div className="Main" id={packageInfo.collected.metadata.name}>
           {error.error ? (
             <Error
               errorCode={error.errorCode}
