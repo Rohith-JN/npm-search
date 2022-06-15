@@ -1,4 +1,3 @@
-import e from 'express';
 import React, { FC } from 'react';
 import Search from './Search';
 
@@ -7,10 +6,6 @@ interface HomeProps {
 }
 
 const Home: FC<HomeProps> = ({ setInput }) => {
-  const handleClick = (value: string, e: any) => {
-    e.preventDefault();
-    setInput(value)
-  }
 
   return (
     <div className="bg-gray-900 w-full h-screen flex pl-32 pt-11" id="Home">
@@ -23,11 +18,7 @@ const Home: FC<HomeProps> = ({ setInput }) => {
           <Search setInput={setInput} />
         </div>
         <p className="text-slate-400 text-lg tracking-widest mt-2">
-          Examples:
-          {example('react', handleClick('react', e))},
-          {example('angular', handleClick('angular', e))},
-          {example('vue', handleClick('vue', e))},
-          {example('nodemon', handleClick('nodemon', e))}
+          Examples: react, redux, vue, nodemon
         </p>
         <div className='absolute flex w-3/4 bottom-2 flex-col'>
           <hr className='h-0.2 w-full' style={{
@@ -39,11 +30,4 @@ const Home: FC<HomeProps> = ({ setInput }) => {
     </div>
   );
 }
-
-const example = (example: string, func: any) => {
-  return (
-    <span className='cursor-pointer hover:underline' onClick={func}>{example}</span>
-  )
-}
-
 export default Home;
