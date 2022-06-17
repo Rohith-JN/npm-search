@@ -19,7 +19,7 @@ function Loader() {
           id="spinner"
           style={{
             fill: 'transparent',
-            stroke: 'black',
+            stroke: 'white',
             strokeWidth: '7px',
             strokeLinecap: 'round',
             filter: 'url(#shadow)',

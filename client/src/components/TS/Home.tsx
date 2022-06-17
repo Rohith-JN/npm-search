@@ -20,12 +20,6 @@ const Home: FC<HomeProps> = ({ setInput }) => {
         <p className="text-slate-400 text-lg tracking-widest mt-2">
           Examples: react, redux, vue, nodemon
         </p>
-        <div className='absolute flex w-3/4 bottom-2 flex-col'>
-          <hr className='h-0.2 w-full' style={{
-            color: 'black',
-          }}></hr>
-          <p className='text-slate-400 text-xl font-normal tracking-wide mt-3 mb-3'>Made by <a className='hover:underline' href="https://github.com/Rohith-JN">Rohith JN</a></p>
-        </div>
       </div>
     </div>
   );
