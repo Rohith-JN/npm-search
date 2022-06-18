@@ -1,7 +1,7 @@
 import './App.css';
-import Main from './components/TS/Main';
-import Home from './components/TS/Home';
-import SideBar from './components/TS/SideBar';
+import Main from './components/MainPage/Main';
+import Home from './components/HomePage/Home';
+import SideBar from './components/SideBar/SideBar';
 import React, { useState, useEffect } from 'react';
 
 function App() {
