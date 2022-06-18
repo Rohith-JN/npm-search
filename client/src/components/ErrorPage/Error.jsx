@@ -1,5 +1,5 @@
 import React from 'react';
-import '../Styles/Error.scss';
+import './Error.scss';
 
 const Error = ({ errorCode, errorMessage }) => {
   return (

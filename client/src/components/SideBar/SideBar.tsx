@@ -7,7 +7,7 @@ import { FaQuestion } from 'react-icons/fa';
 const SideBar = () => {
   return (
     <div className="fixed top-0 left-0 h-screen w-20 flex flex-col
-                  bg-white dark:bg-gray-800 shadow-lg pt-3">
+                  dark:bg-gray-800 shadow-lg pt-3">
       <a href="https://github.com/Rohith-JN/npm_search"><div className="sidebar-icon group">
         <BsGithub size="28" />
         <span className="sidebar-tooltip group-hover:scale-100">

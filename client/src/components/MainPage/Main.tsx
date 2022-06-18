@@ -1,12 +1,13 @@
 import React, { useState, useEffect, FC } from 'react';
-import '../Styles/Main.scss';
-import Summary from './Summary';
-import Loader from './Loader';
-import Error from './Error';
-import WeekChart from './WeekChart';
-import MonthChart from './MonthChart';
-import PackageInfo from './PackageInfo';
-import Readme from './Readme';
+import './Main.scss';
+import Summary from './Summary/Summary';
+import Loader from '../Loader/Loader';
+import Error from '../ErrorPage/Error';
+import WeekChart from './WeekChart/WeekChart';
+import MonthChart from './MonthChart/MonthChart';
+import PackageInfo from './PackageInfo/PackageInfo';
+import Readme from './Readme/Readme';
+import { fetchPackageInfo } from '../../services/services';
 
 interface MainProps {
   input: string;
@@ -21,32 +22,8 @@ const Main: FC<MainProps> = ({ input }) => {
     errorCode: 200,
   });
 
-  const fetchPackageInfo = async (input: string) => {
-    setLoading(true);
-    const response = await fetch(`/packages?package=${input}`, {
-      method: 'GET',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      }
-    });
-    const data = await response.json();
-
-    if (data.error) {
-      setError({
-        error: true,
-        errorMessage: data.errorMessage,
-        errorCode: data.errorCode,
-      });
-    }
-    else {
-      setPackageInfo(data);
-    }
-    setLoading(false);
-  };
-
   useEffect(() => {
-    fetchPackageInfo(input);
+    fetchPackageInfo({ input, setLoading, setError, setPackageInfo });
   }, [input]);
 
   return (

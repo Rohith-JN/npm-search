@@ -1,5 +1,5 @@
 import React, { useState, FC, useEffect } from 'react';
-import '../Styles/Readme.scss';
+import './Readme.scss';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import rehypeRaw from 'rehype-raw';
@@ -8,6 +8,7 @@ import rehypeHighlight from 'rehype-highlight';
 import remarkSlug from 'remark-slug';
 import remarkEmoji from 'remark-emoji';
 import remarkMath from 'remark-math';
+import { fetchURL } from '../../../services/services';
 
 interface ReadmeProps {
     repo: string;
@@ -15,35 +16,12 @@ interface ReadmeProps {
 }
 
 const Readme: FC<ReadmeProps> = ({ owner, repo }) => {
-    const [url, seturl] = useState('');
+    const [url, setUrl] = useState('');
     const [readme, setReadme] = useState('');
 
-    const fetchReadme = async (url: string) => {
-        const response = await fetch(url)
-        const data = await response.text();
-        if (response.status === 200) {
-            setReadme(data);
-        }
-    }
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    const fetchURL = async (owner: string, repo: string) => {
-        const response = await fetch(
-            `https://api.github.com/repos/${owner}/${repo}/readme`
-        );
-        const data = await response.json();
-        seturl(data.download_url);
-        if (response.status === 200) {
-            fetchReadme(url);
-        }
-        else {
-            setReadme('No README.md found');
-        }
-    };
-
     useEffect(() => {
-        fetchURL(owner, repo);
-    }, [owner, repo, fetchURL]);
+        fetchURL({ owner, repo, setUrl, url, setReadme });
+    }, [owner, repo, url]);
 
     return (
         <div className='Readme' id='Readme'>

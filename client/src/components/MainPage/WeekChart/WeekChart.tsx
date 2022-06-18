@@ -10,7 +10,8 @@ import {
   Legend,
 } from 'chart.js';
 import { Line } from 'react-chartjs-2';
-import '../Styles/MonthChart.scss';
+import './WeekChart.scss';
+import { fetchWeekChart } from '../../../services/services';
 
 ChartJS.register(
   CategoryScale,
@@ -22,25 +23,21 @@ ChartJS.register(
   Legend
 );
 
-interface MonthChartProps {
+interface WeekChartProps {
   input: string;
 }
 
-const MonthChart: FC<MonthChartProps> = ({ input }) => {
+const WeekChart: FC<WeekChartProps> = ({ input }) => {
   const options: any = {
     bezierCurve: true,
     responsive: true,
     plugins: {
       legend: {
         position: 'top',
-        labels: {
-          color: "white"
-        }
       },
       title: {
-        color: "white",
         display: true,
-        text: 'Downloads last month',
+        text: 'Downloads last week',
       },
     },
   };
@@ -70,32 +67,8 @@ const MonthChart: FC<MonthChartProps> = ({ input }) => {
     errorCode: 200,
   });
 
-  const fetchPackageInfo = async (input: string) => {
-    const response = await fetch(`/charts?chart=month&package=${input}`, {
-      method: 'GET',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      }
-    });
-    const data = await response.json();
-    if (data.error) {
-      setError({
-        error: true,
-        errorMessage: data.errorMessage,
-        errorCode: data.errorCode,
-      });
-    }
-    else {
-      setChartData({
-        labels: data.downloads.map((item: any) => String(item.day).slice(-2)),
-        data: data.downloads.map((item: any) => item.downloads),
-      });
-    }
-  };
-
   useEffect(() => {
-    fetchPackageInfo(input);
+    fetchWeekChart({input, setError, setChartData});
   }, [input]);
 
   data.labels = chartData.labels;
@@ -103,7 +76,7 @@ const MonthChart: FC<MonthChartProps> = ({ input }) => {
   data.datasets[0].label = input;
 
   return (
-    <div className="MonthChart" id="MonthChart">
+    <div className="WeekChart" id="WeekChart">
       {error.error ? (
         <article className="content">
           <p>
@@ -118,4 +91,4 @@ const MonthChart: FC<MonthChartProps> = ({ input }) => {
   );
 }
 
-export default MonthChart;
+export default WeekChart;

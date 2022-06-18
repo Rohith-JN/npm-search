@@ -10,7 +10,8 @@ import {
   Legend,
 } from 'chart.js';
 import { Line } from 'react-chartjs-2';
-import '../Styles/WeekChart.scss';
+import './MonthChart.scss';
+import { fetchMonthChart } from '../../../services/services';
 
 ChartJS.register(
   CategoryScale,
@@ -22,21 +23,25 @@ ChartJS.register(
   Legend
 );
 
-interface WeekChartProps {
+interface MonthChartProps {
   input: string;
 }
 
-const WeekChart: FC<WeekChartProps> = ({ input }) => {
+const MonthChart: FC<MonthChartProps> = ({ input }) => {
   const options: any = {
     bezierCurve: true,
     responsive: true,
     plugins: {
       legend: {
         position: 'top',
+        labels: {
+          color: "white"
+        }
       },
       title: {
+        color: "white",
         display: true,
-        text: 'Downloads last week',
+        text: 'Downloads last month',
       },
     },
   };
@@ -66,28 +71,8 @@ const WeekChart: FC<WeekChartProps> = ({ input }) => {
     errorCode: 200,
   });
 
-  const fetchPackageInfo = async (input: string) => {
-    const response = await fetch(
-      `/charts?chart=week&package=${input}`
-    );
-    const data = await response.json();
-    if (data.error) {
-      setError({
-        error: true,
-        errorMessage: data.errorMessage,
-        errorCode: data.errorCode,
-      });
-    }
-    else {
-      setChartData({
-        labels: data.downloads.map((item: any) => item.day),
-        data: data.downloads.map((item: any) => item.downloads),
-      });
-    }
-  };
-
   useEffect(() => {
-    fetchPackageInfo(input);
+    fetchMonthChart({ input, setError, setChartData });
   }, [input]);
 
   data.labels = chartData.labels;
@@ -95,7 +80,7 @@ const WeekChart: FC<WeekChartProps> = ({ input }) => {
   data.datasets[0].label = input;
 
   return (
-    <div className="WeekChart" id="WeekChart">
+    <div className="MonthChart" id="MonthChart">
       {error.error ? (
         <article className="content">
           <p>
@@ -110,4 +95,4 @@ const WeekChart: FC<WeekChartProps> = ({ input }) => {
   );
 }
 
-export default WeekChart;
+export default MonthChart;
