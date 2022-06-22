@@ -16,12 +16,11 @@ interface ReadmeProps {
 }
 
 const Readme: FC<ReadmeProps> = ({ owner, repo }) => {
-    const [url, setUrl] = useState('');
     const [readme, setReadme] = useState('');
 
     useEffect(() => {
-        fetchURL({ owner, repo, setUrl, url, setReadme });
-    }, [owner, repo, url]);
+        fetchURL({ owner, repo, setReadme });
+    }, [owner, repo]);
 
     return (
         <div className='Readme' id='Readme'>

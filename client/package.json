@@ -15,6 +15,7 @@
     "react-icons": "^4.3.1",
     "react-markdown": "^8.0.3",
     "react-scripts": "4.0.3",
+    "react-toggle-dark-mode": "^1.1.0",
     "rehype-highlight": "^5.0.2",
     "rehype-raw": "^6.1.1",
     "remark-emoji": "^3.0.2",
