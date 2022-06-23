@@ -8,7 +8,7 @@ interface HomeProps {
 const Home: FC<HomeProps> = ({ setInput }) => {
 
   return (
-    <div className="dark:bg-gray-900 w-full h-screen flex pl-32 pt-11" id="Home">
+    <div className="bg-white dark:bg-gray-900 w-full h-screen flex pl-32 pt-11" id="Home">
       <div className="flex flex-col gap-0 w-full">
         <h1 className="dark:text-slate-300 font-thin text-4xl">npm search</h1>
         <p className='dark:text-slate-400 text-3xl font-normal mt-6 tracking-wide'>
@@ -24,4 +24,5 @@ const Home: FC<HomeProps> = ({ setInput }) => {
     </div>
   );
 }
+
 export default Home;
