@@ -3,6 +3,7 @@ import Main from './components/MainPage/Main';
 import Home from './components/HomePage/Home';
 import SideBar from './components/SideBar/SideBar';
 import { useState, useEffect } from 'react';
+import FAQ from './components/FAQ/FAQ';
 
 function App() {
   const [input, setInput] = useState(
@@ -23,11 +24,7 @@ function App() {
     <div className="App">
       <SideBar />
       <div className="sections">
-        {input ? (
-          <Main input={input} />
-        ) : (
-          <Home setInput={setInput} />
-        )}
+        <FAQ />
       </div>
     </div>
   );
