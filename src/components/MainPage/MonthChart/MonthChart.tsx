@@ -11,7 +11,6 @@ import {
 } from 'chart.js';
 import { Line } from 'react-chartjs-2';
 import './MonthChart.scss';
-import { fetchMonthChart } from '../../../services/services';
 
 ChartJS.register(
   CategoryScale,
@@ -71,8 +70,34 @@ const MonthChart: FC<MonthChartProps> = ({ input }) => {
     errorCode: 200,
   });
 
+  const fetchMonthChart = async ({ input }: { input: string }) => {
+    const response = await fetch(`https://api.npmjs.org/downloads/range/last-month/${input}`, {
+      method: 'GET',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      }
+    });
+
+    const data = await response.json();
+    if (response.status !== 200) {
+      setError({
+        error: true,
+        errorMessage: data.message,
+        errorCode: response.status,
+      });
+    }
+
+    else {
+      setChartData({
+        labels: data.downloads.map((item: any) => String(item.day).slice(-2)),
+        data: data.downloads.map((item: any) => item.downloads),
+      });
+    }
+  };
+
   useEffect(() => {
-    fetchMonthChart({ input, setError, setChartData });
+    fetchMonthChart({ input });
   }, [input]);
 
   data.labels = chartData.labels;

@@ -7,7 +7,6 @@ import WeekChart from './WeekChart/WeekChart';
 import MonthChart from './MonthChart/MonthChart';
 import PackageInfo from './PackageInfo/PackageInfo';
 import Readme from './Readme/Readme';
-import { fetchPackageInfo } from '../../services/services';
 
 interface MainProps {
   input: string;
@@ -22,8 +21,32 @@ const Main: FC<MainProps> = ({ input }) => {
     errorCode: 200,
   });
 
+  const fetchPackageInfo = async ({ input }: { input: string }) => {
+    setLoading(true);
+    const response = await fetch(`https://api.npms.io/v2/package/${input}`, {
+      method: 'GET',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      }
+    });
+    const data = await response.json();
+
+    if (response.status !== 200) {
+      setError({
+        error: true,
+        errorMessage: data.message,
+        errorCode: response.status,
+      });
+    }
+    else {
+      setPackageInfo(data);
+    }
+    setLoading(false);
+  };
+
   useEffect(() => {
-    fetchPackageInfo({ input, setLoading, setError, setPackageInfo });
+    fetchPackageInfo({ input });
   }, [input]);
 
   return (
@@ -31,7 +54,7 @@ const Main: FC<MainProps> = ({ input }) => {
       {loading ? (
         <Loader />
       ) : (
-        <div className="Main" id={packageInfo.collected.metadata.name}>
+        <div className="Main">
           {error.error ? (
             <Error
               errorCode={error.errorCode}

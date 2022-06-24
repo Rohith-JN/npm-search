@@ -8,7 +8,6 @@ import rehypeHighlight from 'rehype-highlight';
 import remarkSlug from 'remark-slug';
 import remarkEmoji from 'remark-emoji';
 import remarkMath from 'remark-math';
-import { fetchURL } from '../../../services/services';
 
 interface ReadmeProps {
     repo: string;
@@ -18,9 +17,31 @@ interface ReadmeProps {
 const Readme: FC<ReadmeProps> = ({ owner, repo }) => {
     const [readme, setReadme] = useState('');
 
+    const fetchReadme = async ({ url }: { url: string }) => {
+        const response = await fetch(url)
+        const data = await response.text();
+        if (response.status === 200) {
+            setReadme(data);
+        }
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    const fetchURL = async ({ owner, repo }: { owner: string, repo: string }) => {
+        const response = await fetch(
+            `https://api.github.com/repos/${owner}/${repo}/readme`
+        );
+        const data = await response.json();
+        if (response.status === 200) {
+            fetchReadme({ url: data.download_url });
+        }
+        else {
+            setReadme('No README.md found');
+        }
+    };
+
     useEffect(() => {
-        fetchURL({ owner, repo, setReadme });
-    }, [owner, repo]);
+        fetchURL({ owner, repo });
+    }, [fetchURL, owner, repo]);
 
     return (
         <div className='Readme' id='Readme'>

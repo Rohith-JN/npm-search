@@ -11,7 +11,6 @@ import {
 } from 'chart.js';
 import { Line } from 'react-chartjs-2';
 import './WeekChart.scss';
-import { fetchWeekChart } from '../../../services/services';
 
 ChartJS.register(
   CategoryScale,
@@ -67,8 +66,30 @@ const WeekChart: FC<WeekChartProps> = ({ input }) => {
     errorCode: 200,
   });
 
+  const fetchWeekChart = async ({ input }: { input: string }) => {
+    const response = await fetch(
+      `https://api.npmjs.org/downloads/range/last-${input}/${input}`
+    );
+    const data = await response.json();
+
+    if (response.status !== 200) {
+      setError({
+        error: true,
+        errorMessage: data.message,
+        errorCode: response.status,
+      });
+    }
+
+    else {
+      setChartData({
+        labels: data.downloads.map((item: any) => item.day),
+        data: data.downloads.map((item: any) => item.downloads),
+      });
+    }
+  };
+
   useEffect(() => {
-    fetchWeekChart({input, setError, setChartData});
+    fetchWeekChart({ input });
   }, [input]);
 
   data.labels = chartData.labels;
