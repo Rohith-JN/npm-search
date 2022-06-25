@@ -2,35 +2,23 @@ import './App.css';
 import Main from './components/MainPage/Main';
 import Home from './components/HomePage/Home';
 import SideBar from './components/SideBar/SideBar';
-import { useState, useEffect } from 'react';
 import FAQ from './components/FAQ/FAQ';
+import Error from './components/ErrorPage/Error';
+import { Route, Routes } from "react-router";
+import { BrowserRouter as Router } from "react-router-dom";
 
 function App() {
-  const [input, setInput] = useState(
-    sessionStorage.getItem('input') ? sessionStorage.getItem('input') : ''
-  );
-
-  useEffect(() => {
-    if (sessionStorage.getItem('input')) {
-      setInput(sessionStorage.getItem('input'));
-    }
-  }, []);
-
-  useEffect(() => {
-    window.sessionStorage.setItem('input', input);
-  }, [input]);
 
   return (
-    <div className="App">
+    <Router>
       <SideBar />
-      <div className="sections">
-        {input ? (
-          <Main input={input} />
-        ) : (
-          <Home setInput={setInput} />
-        )}
-      </div>
-    </div>
+      <Routes>
+        <Route path={`/:input`} element={<Main />} />
+        <Route path="/" element={<Home />} />
+        <Route path="/FAQ" element={<FAQ />} />
+        <Route path="/Error/:errorCode/:errorMessage" element={<Error />} />
+      </Routes>
+    </Router>
   );
 }
 

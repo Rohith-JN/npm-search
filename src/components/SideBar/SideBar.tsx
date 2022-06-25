@@ -4,10 +4,12 @@ import { GoSearch } from 'react-icons/go';
 import { FaQuestion } from 'react-icons/fa';
 import { DarkModeSwitch } from 'react-toggle-dark-mode';
 import useDarkMode from '../../hooks/useDarkMode';
+import { useNavigate } from 'react-router-dom';
 
 const SideBar = () => {
   const [colorTheme, setTheme] = useDarkMode();
   const [darkMode, setDarkMode] = useState(colorTheme === 'light' ? true : false);
+  const navigate = useNavigate();
 
   const toggleDarkMode = (checked: boolean) => {
     setTheme(colorTheme);
@@ -23,20 +25,15 @@ const SideBar = () => {
           View on Github
         </span>
       </div></a>
-      <SideBarIcon icon={<GoSearch size="26" />} text='Quick search' />
-      <div className="sidebar-icon group">
-        <DarkModeSwitch
-          checked={darkMode}
-          onChange={toggleDarkMode}
-          size={30}
-          moonColor="#fff"
-          sunColor="#fff"
-        />
-        <span className="sidebar-tooltip group-hover:scale-100">
-          Toggle {colorTheme} mode
-        </span>
-      </div>
-      <SideBarIcon icon={<FaQuestion size="22" />} text='FAQs' />
+      <SideBarIcon icon={<GoSearch size="26" onClick={() => navigate("/")} />} text='Quick search' />
+      <SideBarIcon icon={<DarkModeSwitch
+        checked={darkMode}
+        onChange={toggleDarkMode}
+        size={30}
+        moonColor="#fff"
+        sunColor="#fff"
+      />} text={`Toggle ${colorTheme} mode`} />
+      <SideBarIcon icon={<FaQuestion size="22" onClick={() => navigate("/FAQ")} />} text='FAQs' />
     </div>
   );
 };

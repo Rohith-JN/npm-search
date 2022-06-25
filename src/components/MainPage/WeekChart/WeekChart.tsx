@@ -68,7 +68,7 @@ const WeekChart: FC<WeekChartProps> = ({ input }) => {
 
   const fetchWeekChart = async ({ input }: { input: string }) => {
     const response = await fetch(
-      `https://api.npmjs.org/downloads/range/last-${input}/${input}`
+      `https://api.npmjs.org/downloads/range/last-week/${input}`
     );
     const data = await response.json();
 
