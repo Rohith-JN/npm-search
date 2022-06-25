@@ -2,25 +2,45 @@ import { FC } from 'react';
 
 const FAQ: FC = () => {
     return (
-        <div className="flex flex-col h-screen w-full gap-5 items-center dark:bg-gray-900 bg-white pl-32 pt-16" id="FAQ">
-            <div className="flex flex-col w-full items-start">
-                <h1 className="text-black dark:text-white text-6xl">FAQ</h1>
-            </div>
-            <div className="flex flex-col w-full gap-2 items-start">
-                <h2 className="text-black dark:text-white text-3xl">Where the downloads come from?</h2>
-                <p className="text-black dark:text-white text-2xl opacity-50">The npm package download data comes from npm's <a href="https://github.com/npm/download-counts">download counts</a> api and package details come from <a href="https://api-docs.npms.io/">npms.io</a></p>
-            </div>
-            <div className="flex flex-col w-full gap-2 items-start">
-                <h2 className="text-black dark:text-white text-3xl">When the data is updated?</h2>
-                <p className="text-black dark:text-white text-2xl opacity-50">These statistics are not provided in real-time. All numbers will change at most once per day.</p>
-            </div>
-            <div className="flex flex-col w-full gap-2 items-start">
-                <h2 className="text-black dark:text-white text-3xl">Who is the creator of npm-search.com?</h2>
-                <p className="text-black dark:text-white text-2xl opacity-50"><a href="https://github.com/Rohith-JN">Rohith JN</a> started the project</p>
-            </div>
-            <div className="flex flex-col w-full gap-2 items-start">
-                <h2 className="text-black dark:text-white text-3xl">Can I participate to improve the website?</h2>
-                <p className="text-black dark:text-white text-2xl opacity-50">Of course, this is an open source site and you can contribute by opening issues or by submitting PRs</p>
+        <div className="container pl-20 py-24 mx-auto w-full h-screen bg-white dark:bg-gray-900">
+            <div className="flex flex-col items-center justify-center">
+                <h1 className="sm:text-3xl text-2xl font-medium text-center title-font text-gray-900 dark:text-white mb-4">
+                    Frequently Asked Questions
+                </h1>
+                <details className="mb-4 w-2/5 mt-6">
+                    <summary className="font-semibold  bg-gray-200 rounded-md py-2 px-4">
+                        Where the downloads come from?
+                    </summary>
+                    <span className='text-black dark:text-white'>
+                        The npm package download data comes from npm's <a href="https://github.com/npm/download-counts">download counts</a> api and package details come from <a href="https://api-docs.npms.io/">npms.io</a>
+                    </span>
+                </details>
+                <details className="mb-4 w-2/5">
+                    <summary className="font-semibold bg-gray-200 rounded-md py-2 px-4">
+                        When the data is updated?
+                    </summary>
+
+                    <span className='text-black dark:text-white'>
+                        These statistics are not provided in real-time. All numbers will change at most once per day.
+                    </span>
+                </details>
+                <details className="mb-4 w-2/5">
+                    <summary className="font-semibold  bg-gray-200 rounded-md py-2 px-4">
+                        Who is the creator of npm-search.com?
+                    </summary>
+
+                    <span className='text-black dark:text-white'>
+                        <a href="https://github.com/Rohith-JN">Rohith JN</a> started the project
+                    </span>
+                </details>
+                <details className="mb-4 w-2/5">
+                    <summary className="font-semibold  bg-gray-200 rounded-md py-2 px-4">
+                        Can I participate to improve the website?
+                    </summary>
+                    <span className="text-black dark:text-white">
+                        Of course, this is an open source site and you can contribute by opening issues or by submitting PRs
+                    </span>
+                </details>
             </div>
         </div>
     )

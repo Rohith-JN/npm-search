@@ -24,7 +24,11 @@ function App() {
     <div className="App">
       <SideBar />
       <div className="sections">
-        <FAQ />
+        {input ? (
+          <Main input={input} />
+        ) : (
+          <Home setInput={setInput} />
+        )}
       </div>
     </div>
   );
