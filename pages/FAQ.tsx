@@ -8,7 +8,7 @@ const FAQ: FC = () => {
                     Frequently Asked Questions
                 </h1>
                 <details className="mb-4 w-2/5 mt-6">
-                    <summary className="font-semibold  bg-gray-200 rounded-md py-2 px-4">
+                    <summary className="font-semibold  bg-gray-200 rounded-md py-2 px-4 dark:text-black">
                         Where the downloads come from?
                     </summary>
                     <span className='text-black dark:text-white'>
@@ -16,7 +16,7 @@ const FAQ: FC = () => {
                     </span>
                 </details>
                 <details className="mb-4 w-2/5">
-                    <summary className="font-semibold bg-gray-200 rounded-md py-2 px-4">
+                    <summary className="font-semibold bg-gray-200 rounded-md py-2 px-4 dark:text-black">
                         When the data is updated?
                     </summary>
 
@@ -25,7 +25,7 @@ const FAQ: FC = () => {
                     </span>
                 </details>
                 <details className="mb-4 w-2/5">
-                    <summary className="font-semibold  bg-gray-200 rounded-md py-2 px-4">
+                    <summary className="font-semibold  bg-gray-200 rounded-md py-2 px-4 dark:text-black">
                         Who is the creator of npm-search.com?
                     </summary>
 
@@ -34,7 +34,7 @@ const FAQ: FC = () => {
                     </span>
                 </details>
                 <details className="mb-4 w-2/5">
-                    <summary className="font-semibold  bg-gray-200 rounded-md py-2 px-4">
+                    <summary className="font-semibold  bg-gray-200 rounded-md py-2 px-4 dark:text-black">
                         Can I participate to improve the website?
                     </summary>
                     <span className="text-black dark:text-white">

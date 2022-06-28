@@ -1,11 +1,16 @@
 import '../styles/globals.css'
 import Layout from '../components/Layout'
 import type { AppProps } from 'next/app'
+import { ThemeProvider } from 'next-themes'
 
 function MyApp({ Component, pageProps }: AppProps) {
-  return <Layout>
-    <Component {...pageProps} />
-  </Layout>
+  return (
+    <ThemeProvider attribute="class">
+      <Layout>
+        <Component {...pageProps} />
+      </Layout>
+    </ThemeProvider>
+  );
 }
 
 export default MyApp
