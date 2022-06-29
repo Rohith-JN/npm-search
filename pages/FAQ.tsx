@@ -1,8 +1,12 @@
+import Head from 'next/head';
 import { FC } from 'react';
 
 const FAQ: FC = () => {
     return (
         <div className="container pl-20 py-24 mx-auto w-full h-screen bg-white dark:bg-gray-900">
+            <Head>
+                <title>npm search | FAQ</title>
+            </Head>
             <div className="flex flex-col items-center justify-center">
                 <h1 className="sm:text-3xl text-2xl font-medium text-center title-font text-gray-900 dark:text-white mb-4">
                     Frequently Asked Questions

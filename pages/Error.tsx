@@ -1,6 +1,6 @@
 import { FC } from 'react';
 import { useRouter } from "next/router"
-
+import Head from 'next/head';
 
 const Error: FC = () => {
   const router = useRouter()
@@ -8,6 +8,9 @@ const Error: FC = () => {
 
   return (
     <div className="flex items-center justify-center flex-col w-full h-screen dark:bg-gray-900 dark:text-gray-100 bg-white">
+      <Head>
+        <title>npm search | Error</title>
+      </Head>
       <div className="container flex flex-col items-center justify-center px-5 mx-auto my-8">
         <div className="max-w-md text-center">
           <h2 className="mb-8 font-extrabold text-9xl dark:text-gray-600">

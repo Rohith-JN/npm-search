@@ -4,34 +4,55 @@ interface PackageInfoProps {
   stars: number;
   forks: number;
   issues: number;
-  contributors: number;
-  maintainers: number;
+  version: number;
 }
 
-const PackageInfo: FC<PackageInfoProps> = ({ stars, forks, issues, contributors, maintainers }) => {
+const PackageInfo: FC<PackageInfoProps> = ({ stars, forks, issues, version }) => {
 
   return (
-    <div className="PackageInfo" id="PackageInfo">
-      <div className="header"><h1>Package</h1></div>
-      <div className="main-row">
-        <p>Stars:</p>
-        <p className='info'>{stars}</p>
-      </div>
-      <div className="main-row">
-        <p>Forks:</p>
-        <p className='info'>{forks}</p>
-      </div>
-      <div className="main-row">
-        <p>Issues:</p>
-        <p className='info'>{issues}</p>
-      </div>
-      <div className="main-row">
-        <p>Contributors:</p>
-        <p className='info' >{contributors}</p>
-      </div>
-      <div className="last-row">
-        <p>Maintainers:</p>
-        <p className='info'>{maintainers}</p>
+    <div className="w-5/6 flex flex-col gap-3">
+      <h1 className='mb-6 text-3xl'>Stats</h1>
+      <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
+        <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+          <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+            <tr>
+              <th scope="col" className="px-4 py-3">
+              </th>
+              <th scope="col" className="px-4 py-3">
+                Stars
+              </th>
+              <th scope="col" className="px-4 py-3">
+                Forks
+              </th>
+              <th scope="col" className="px-4 py-3">
+                Issues
+              </th>
+              <th scope="col" className="px-4 py-3">
+                Version
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+              <th scope="row" className="px-6 py-4 font-medium text-gray-900 dark:text-white whitespace-nowrap">
+                React
+              </th>
+              <td className="px-4 py-4">
+                {stars}
+              </td>
+              <td className="px-4 py-4">
+                {forks}
+              </td>
+              <td className="px-4 py-4">
+                {issues}
+              </td>
+              <td className="px-4 py-4">
+                v{version}
+              </td>
+              
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
   );

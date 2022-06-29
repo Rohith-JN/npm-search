@@ -10,6 +10,7 @@ import {
   Legend,
 } from 'chart.js';
 import { Line } from 'react-chartjs-2';
+import { useTheme } from 'next-themes';
 
 ChartJS.register(
   CategoryScale,
@@ -21,23 +22,46 @@ ChartJS.register(
   Legend
 );
 
-interface WeekChartProps {
+interface ChartProps {
   input: any;
 }
 
-const WeekChart: FC<WeekChartProps> = ({ input }) => {
+const Chart: FC<ChartProps> = ({ input }) => {
+  const { theme, setTheme } = useTheme()
+  const [darkMode, setDarkMode] = useState(theme === 'light' ? true : false);
   const options: any = {
     bezierCurve: true,
     responsive: true,
+    maintainAspectRatio: false,
     plugins: {
       legend: {
         position: 'top',
+        display: true,
+        labels: {
+          usePointStyle: true,
+        }
       },
       title: {
-        display: true,
-        text: 'Downloads last week',
+        display: false,
       },
     },
+    interaction: {
+      intersect: false,
+    },
+    scales: {
+      x: {
+        grid: {
+          color: 'transparent',
+          borderColor: darkMode ? '#6b7280' : 'white',
+        }
+      },
+      y: {
+        grid: {
+          color: 'transparent',
+          borderColor: darkMode ? '#6b7280' : 'white',
+        }
+      }
+    }
   };
 
   const data = {
@@ -49,7 +73,7 @@ const WeekChart: FC<WeekChartProps> = ({ input }) => {
         pointRadius: 0,
         fill: true,
         backgroundColor: 'rgba(75,192,192,0.2)',
-        borderColor: 'rgba(75,192,192,1)',
+        borderColor: '#1e88e5',
         lineTension: 0.4,
       },
     ],
@@ -65,7 +89,7 @@ const WeekChart: FC<WeekChartProps> = ({ input }) => {
     errorCode: 200,
   });
 
-  const fetchWeekChart = async ({ input }: { input: string }) => {
+  const fetchChart = async ({ input }: { input: string }) => {
     const response = await fetch(
       `https://api.npmjs.org/downloads/range/last-week/${input}`
     );
@@ -88,7 +112,7 @@ const WeekChart: FC<WeekChartProps> = ({ input }) => {
   };
 
   useEffect(() => {
-    fetchWeekChart({ input });
+    fetchChart({ input });
   }, [input]);
 
   data.labels = chartData.labels;
@@ -96,7 +120,7 @@ const WeekChart: FC<WeekChartProps> = ({ input }) => {
   data.datasets[0].label = input;
 
   return (
-    <div className="WeekChart" id="WeekChart">
+    <div>
       {error.error ? (
         <article className="content">
           <p>
@@ -105,10 +129,12 @@ const WeekChart: FC<WeekChartProps> = ({ input }) => {
           <p>{error.errorMessage}</p>
         </article>
       ) : (
-        <Line options={options} data={data} />
+        <div className="w-5/6 h-96">
+          <Line options={options} data={data} />
+        </div>
       )}
     </div>
   );
 }
 
-export default WeekChart;
+export default Chart;

@@ -8,8 +8,6 @@ interface SummaryProps {
   license: string;
   npm: string;
   github: string;
-  downloads: string;
-  keywords: string[];
 }
 
 const Summary: FC<SummaryProps> = ({
@@ -19,53 +17,26 @@ const Summary: FC<SummaryProps> = ({
   license,
   npm,
   github,
-  downloads,
-  keywords,
 }) => {
-  const text = useRef<HTMLDivElement>(null);
-  const button = useRef<HTMLButtonElement>(null);
-
-  const handleCopyText = () => {
-    copy(text.current!.innerText);
-    button.current!.innerText = 'Copied';
-    button.current!.style.backgroundColor = 'lightgreen';
-    navigator.clipboard.writeText(text.current!.innerText);
-    setTimeout(() => {
-      button.current!.style.backgroundColor = 'white';
-      button.current!.innerText = 'Copy';
-    }, 1500);
-  }
-
+ 
   return (
-    <div className="summary" id="summary">
-      <div className="row-1">
-        <h1>{heading}</h1>
-        <p>v{version}</p>
+    <div className="w-full h-full flex flex-col gap-3">
+      <div className="flex flex-row items-end gap-3">
+        <h1 className='text-4xl font-normal'>{heading}</h1>
+        <p className='text-xl text-gray-400'>v{version}</p>
       </div>
-      <p className="description">{description}</p>
-      <div className="row-2">
-        <p>{license}</p>
-        <div className="line"></div>
+      <div className="flex flex-row items-end gap-3">
+        <p className="text-gray-400">{description}</p>
+        <p className='text-gray-400'>{license}</p>
+        <div className="h-6 w-0.5 bg-gray-400"></div>
         <a href={npm}>
-          <p>NPM</p>
+          <p className='text-gray-400 hover:text-blue-500'>NPM</p>
         </a>
-        <div className="line"></div>
+        <div className="h-6 w-0.5 bg-gray-400"></div>
         <a href={github}>
-          <p>Github</p>
+          <p className='text-gray-400 hover:text-blue-500'>Github</p>
         </a>
       </div>
-      <p className="downloads">Total downloads: {downloads}</p>
-      <div className="codeBlock">
-        <pre>
-          <code className="lang-json" id="text" ref={text}>
-            npm install {heading}
-          </code>
-        </pre>
-        <button className="copy" onClick={handleCopyText} ref={button}>
-          Copy
-        </button>
-      </div>
-      <p className="keywords">Keywords: {keywords}</p>
     </div>
   );
 }
