@@ -18,7 +18,7 @@ const Summary: FC<SummaryProps> = ({
   npm,
   github,
 }) => {
- 
+
   return (
     <div className="w-full h-full flex flex-col gap-3">
       <div className="flex flex-row items-end gap-3">
@@ -30,11 +30,11 @@ const Summary: FC<SummaryProps> = ({
         <p className='text-gray-400'>{license}</p>
         <div className="h-6 w-0.5 bg-gray-400"></div>
         <a href={npm}>
-          <p className='text-gray-400 hover:text-blue-500'>NPM</p>
+          <p className='text-gray-400 hover:text-blue-500 cursor-pointer'>NPM</p>
         </a>
         <div className="h-6 w-0.5 bg-gray-400"></div>
         <a href={github}>
-          <p className='text-gray-400 hover:text-blue-500'>Github</p>
+          <p className='text-gray-400 hover:text-blue-500 cursor-pointer'>Github</p>
         </a>
       </div>
     </div>
