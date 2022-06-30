@@ -22,11 +22,7 @@ ChartJS.register(
   Legend
 );
 
-interface ChartProps {
-  input: any;
-}
-
-const Chart: FC<ChartProps> = ({ input }) => {
+const Chart = ({ chartLabels, chartData, input } : { chartLabels: Array<number>, chartData: Array<number>, input: any }) => {
   const { theme, setTheme } = useTheme()
   const [darkMode, setDarkMode] = useState(theme === 'light' ? true : false);
   const options: any = {
@@ -79,60 +75,15 @@ const Chart: FC<ChartProps> = ({ input }) => {
     ],
   };
 
-  const [chartData, setChartData] = useState({
-    labels: [],
-    data: [],
-  });
-  const [error, setError] = useState({
-    error: false,
-    errorMessage: '',
-    errorCode: 200,
-  });
-
-  const fetchChart = async ({ input }: { input: string }) => {
-    const response = await fetch(
-      `https://api.npmjs.org/downloads/range/last-week/${input}`
-    );
-    const data = await response.json();
-
-    if (response.status !== 200) {
-      setError({
-        error: true,
-        errorMessage: data.message,
-        errorCode: response.status,
-      });
-    }
-
-    else {
-      setChartData({
-        labels: data.downloads.map((item: any) => item.day),
-        data: data.downloads.map((item: any) => item.downloads),
-      });
-    }
-  };
-
-  useEffect(() => {
-    fetchChart({ input });
-  }, [input]);
-
-  data.labels = chartData.labels;
-  data.datasets[0].data = chartData.data;
+  data.labels = chartLabels;
+  data.datasets[0].data = chartData;
   data.datasets[0].label = input;
 
   return (
     <div>
-      {error.error ? (
-        <article className="content">
-          <p>
-            <strong>Error ({error.errorCode})</strong>
-          </p>
-          <p>{error.errorMessage}</p>
-        </article>
-      ) : (
-        <div className="w-5/6 h-96">
-          <Line options={options} data={data} />
-        </div>
-      )}
+      <div className="w-5/6 h-96">
+        <Line options={options} data={data} />
+      </div>
     </div>
   );
 }

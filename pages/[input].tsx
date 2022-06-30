@@ -1,12 +1,37 @@
-import React, { useState, useEffect, useRef, FC } from 'react';
+import React, { useRef } from 'react';
 import Summary from '../components/Summary';
 import Chart from '../components/Chart';
 import PackageInfo from '../components/PackageInfo';
 import { useRouter } from "next/router"
 import Head from 'next/head';
+import Error from '../components/Error';
+import moment from 'moment';
 
-const Main: FC = () => {
-  const [packageInfo, setPackageInfo]: any = useState(null);
+export const getServerSideProps = async (context: { params: { input: string; }; }) => {
+  const input = context.params.input;
+  const packageRes = await fetch(`https://api.npms.io/v2/package/${input}`);
+  const chartRes = await fetch(
+    `https://api.npmjs.org/downloads/range/last-week/${input}`
+  );
+  const packageData = await packageRes.json();
+  const chartData = await chartRes.json();
+  let labels = [];
+  let data = [];
+  if (chartRes.ok) {
+    labels = chartData.downloads.map((item: any) => moment(item.day).format("MMM Do"));
+    data = chartData.downloads.map((item: any) => item.downloads);
+  }
+  else {
+    labels = []
+    data = []
+  }
+  const error = packageRes.ok ? false : true;
+  const errorCode = packageRes.ok ? 200 : packageRes.status
+  const errorMessage = error ? packageData.message : ''
+  return { props: { packageInfo: packageData, error, errorCode, errorMessage, labels, data } }
+}
+
+const Main = ({ packageInfo, error, errorCode, errorMessage, labels, data }: { packageInfo: any, error: boolean, errorCode: number, errorMessage: string, labels: Array<number>, data: Array<number> }) => {
   const router = useRouter()
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -19,32 +44,11 @@ const Main: FC = () => {
   };
 
   const { query: { input }, } = router
-
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const fetchPackageInfo = async ({ input }: { input: any }) => {
-    const response = await fetch(`https://api.npms.io/v2/package/${input}`, {
-      method: 'GET',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      }
-    });
-    console.log(response)
-    const data = await response.json();
-    if (!response.ok) {
-      router.push({ pathname: `/Error`, query: { errorCode: response.status, errorMessage: data.message } })
-    }
-    else {
-      setPackageInfo(data);
-    }
+  if (error) {
+    return <Error statusCode={errorCode} statusMessage={errorMessage} />
   }
-
-  useEffect(() => {
-    fetchPackageInfo({ input });
-  }, [fetchPackageInfo, input, router]);
-
-  return (
-    <div>
+  else {
+    return (
       <div className="h-full w-full pl-32 pt-10 pb-12 bg-white dark:bg-gray-900">
         <Head>
           <title>npm search | {packageInfo.collected.metadata.name}</title>
@@ -72,17 +76,17 @@ const Main: FC = () => {
               </form>
             </div>
           </div>
-          <Chart input={input} />
+          <Chart input={input} chartLabels={labels} chartData={data} />
           <PackageInfo
-            stars={packageInfo.collected.github.starsCount.toLocaleString()}
-            forks={packageInfo.collected.github.forksCount.toLocaleString()}
-            issues={packageInfo.collected.github.issues.openCount.toLocaleString()}
+            stars={0}
+            forks={0}
+            issues={0}
             version={packageInfo.collected.metadata.version}
           />
         </div>
       </div>
-    </div>
-  );
+    );
+  }
 }
 
 export default Main;
