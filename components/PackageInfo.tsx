@@ -5,13 +5,14 @@ interface PackageInfoProps {
   forks: number;
   issues: number;
   version: number;
+  input: any;
 }
 
-const PackageInfo: FC<PackageInfoProps> = ({ stars, forks, issues, version }) => {
+const PackageInfo: FC<PackageInfoProps> = ({ stars, forks, issues, version, input }) => {
 
   return (
-    <div className="w-5/6 flex flex-col gap-3">
-      <h1 className='mb-6 text-3xl'>Stats</h1>
+    <div className="w-5/6 flex flex-col gap-3 mt-12">
+      <h1 className='mb-6 text-2xl'>Stats</h1>
       <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
         <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
           <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
@@ -35,7 +36,7 @@ const PackageInfo: FC<PackageInfoProps> = ({ stars, forks, issues, version }) =>
           <tbody>
             <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
               <th scope="row" className="px-6 py-4 font-medium text-gray-900 dark:text-white whitespace-nowrap">
-                React
+                {input}
               </th>
               <td className="px-4 py-4">
                 {stars}
@@ -49,7 +50,6 @@ const PackageInfo: FC<PackageInfoProps> = ({ stars, forks, issues, version }) =>
               <td className="px-4 py-4">
                 v{version}
               </td>
-              
             </tr>
           </tbody>
         </table>

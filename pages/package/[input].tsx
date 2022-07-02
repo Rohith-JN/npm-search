@@ -1,34 +1,36 @@
 import React, { useRef } from 'react';
-import Summary from '../components/Summary';
-import Chart from '../components/Chart';
-import PackageInfo from '../components/PackageInfo';
+import Summary from '../../components/Summary';
+import Chart from '../../components/Chart';
+import PackageInfo from '../../components/PackageInfo';
 import { useRouter } from "next/router"
 import Head from 'next/head';
-import Error from '../components/Error';
+import Error from '../../components/Error';
 import moment from 'moment';
 
 export const getServerSideProps = async (context: { params: { input: string; }; }) => {
-  const input = context.params.input;
-  const packageRes = await fetch(`https://api.npms.io/v2/package/${input}`);
-  const chartRes = await fetch(
-    `https://api.npmjs.org/downloads/range/last-week/${input}`
-  );
-  const packageData = await packageRes.json();
-  const chartData = await chartRes.json();
-  let labels = [];
-  let data = [];
-  if (chartRes.ok) {
-    labels = chartData.downloads.map((item: any) => moment(item.day).format("MMM Do"));
-    data = chartData.downloads.map((item: any) => item.downloads);
-  }
-  else {
-    labels = []
-    data = []
-  }
-  const error = packageRes.ok ? false : true;
-  const errorCode = packageRes.ok ? 200 : packageRes.status
-  const errorMessage = error ? packageData.message : ''
-  return { props: { packageInfo: packageData, error, errorCode, errorMessage, labels, data } }
+    const input = context.params.input;
+    const [packageRes, chartRes] = await Promise.all([
+      fetch(`https://api.npms.io/v2/package/${input}`),
+      fetch(`https://api.npmjs.org/downloads/range/last-week/${input}`),
+    ])
+    const [packageData, chartData] = await Promise.all([
+      packageRes.json(),
+      chartRes.json(),
+    ])
+    let labels = [];
+    let data = [];
+    if (chartRes.ok) {
+      labels = chartData.downloads.map((item: any) => moment(item.day).format("MMM Do"));
+      data = chartData.downloads.map((item: any) => item.downloads);
+    }
+    else {
+      labels = []
+      data = []
+    }
+    const error = packageRes.ok ? false : true;
+    const errorCode = packageRes.ok ? 200 : packageRes.status
+    const errorMessage = error ? packageData.message : ''
+    return { props: { packageInfo: packageData, error, errorCode, errorMessage, labels, data } }
 }
 
 const Main = ({ packageInfo, error, errorCode, errorMessage, labels, data }: { packageInfo: any, error: boolean, errorCode: number, errorMessage: string, labels: Array<number>, data: Array<number> }) => {
@@ -36,9 +38,18 @@ const Main = ({ packageInfo, error, errorCode, errorMessage, labels, data }: { p
   const inputRef = useRef<HTMLInputElement>(null);
 
   const submitHandler = (e: { preventDefault: () => void; }) => {
+    let arr = inputRef.current!.value.split(' ');
+    arr = arr.filter(e => e !== 'vs');
+    arr = arr.filter(function (value, index, array) {
+      return array.indexOf(value) === index;
+    });
     e.preventDefault();
-    if (inputRef.current!.value) {
-      router.push({ pathname: `/${inputRef.current!.value}`, query: { input: inputRef.current!.value } },)
+    if (inputRef.current!.value && arr.length === 1) {
+      router.push({ pathname: `/package/${inputRef.current!.value}`, query: { input: inputRef.current!.value } },)
+      inputRef.current!.value = '';
+    }
+    else if (inputRef.current!.value && arr.length > 1) {
+      router.push({ pathname: `/packages/${arr}`, query: { input: inputRef.current!.value } },)
       inputRef.current!.value = '';
     }
   };
@@ -53,7 +64,7 @@ const Main = ({ packageInfo, error, errorCode, errorMessage, labels, data }: { p
         <Head>
           <title>npm search | {packageInfo.collected.metadata.name}</title>
         </Head>
-        <div className='flex flex-col gap-20'>
+        <div className='flex flex-col gap-12'>
           <div className="flex flex-col">
             <Summary
               heading={packageInfo.collected.metadata.name}
@@ -78,9 +89,10 @@ const Main = ({ packageInfo, error, errorCode, errorMessage, labels, data }: { p
           </div>
           <Chart input={input} chartLabels={labels} chartData={data} />
           <PackageInfo
-            stars={0}
-            forks={0}
-            issues={0}
+            input={input}
+            stars={packageInfo.collected.github.starsCount.toLocaleString()}
+            forks={packageInfo.collected.github.forksCount.toLocaleString()}
+            issues={packageInfo.collected.github.issues.openCount.toLocaleString()}
             version={packageInfo.collected.metadata.version}
           />
         </div>
