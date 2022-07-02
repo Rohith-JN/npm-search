@@ -1,4 +1,4 @@
-import React, { useEffect, useState, FC } from 'react';
+import React from 'react';
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -10,7 +10,7 @@ import {
   Legend,
 } from 'chart.js';
 import { Line } from 'react-chartjs-2';
-import { useTheme } from 'next-themes';
+import options from '../components/options';
 
 ChartJS.register(
   CategoryScale,
@@ -22,43 +22,7 @@ ChartJS.register(
   Legend
 );
 
-const Chart = ({ chartLabels, chartData, input } : { chartLabels: Array<number>, chartData: Array<number>, input: any }) => {
-  const { theme, setTheme } = useTheme()
-  const [darkMode, setDarkMode] = useState(theme === 'light' ? true : false);
-  const options: any = {
-    bezierCurve: true,
-    responsive: true,
-    maintainAspectRatio: false,
-    plugins: {
-      legend: {
-        position: 'top',
-        display: true,
-        labels: {
-          usePointStyle: true,
-        }
-      },
-      title: {
-        display: false,
-      },
-    },
-    interaction: {
-      intersect: false,
-    },
-    scales: {
-      x: {
-        grid: {
-          color: 'transparent',
-          borderColor: darkMode ? '#6b7280' : 'white',
-        }
-      },
-      y: {
-        grid: {
-          color: 'transparent',
-          borderColor: darkMode ? '#6b7280' : 'white',
-        }
-      }
-    }
-  };
+const Chart = ({ chartLabels, chartData, input }: { chartLabels: Array<number>, chartData: Array<number>, input: any }) => {
 
   const data = {
     labels: [] as any[],
@@ -68,7 +32,7 @@ const Chart = ({ chartLabels, chartData, input } : { chartLabels: Array<number>,
         data: [] as any[],
         pointRadius: 0,
         fill: true,
-        backgroundColor: 'rgba(75,192,192,0.2)',
+        backgroundColor: '#1e88e5',
         borderColor: '#1e88e5',
         lineTension: 0.4,
       },
@@ -82,6 +46,7 @@ const Chart = ({ chartLabels, chartData, input } : { chartLabels: Array<number>,
   return (
     <div>
       <div className="w-5/6 h-96">
+        <p className='text-2xl mb-6'>Downloads in the past 1 week</p>
         <Line options={options} data={data} />
       </div>
     </div>
