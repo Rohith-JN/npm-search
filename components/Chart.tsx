@@ -45,7 +45,7 @@ const Chart = ({ chartLabels, chartData, input }: { chartLabels: Array<number>, 
 
   return (
     <div>
-      <div className="w-5/6 h-96">
+      <div className="w-5/6 h-96 lg:w-full lg:pr-4">
         <p className='text-2xl mb-6'>Downloads in the past 1 week</p>
         <Line options={options} data={data} />
       </div>

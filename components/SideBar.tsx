@@ -28,7 +28,7 @@ const SideBar = () => {
 
   return (
     <div className="bg-gray-200 dark:bg-gray-800 fixed top-0 left-0 h-screen w-20 flex flex-col
-                  shadow-lg pt-3 ">
+                  shadow-lg pt-3 md:w-16">
       <a href="https://github.com/Rohith-JN/npm_search"><div className="sidebar-icon group">
         <BsGithub size="28" />
         <span className="sidebar-tooltip group-hover:scale-100">
