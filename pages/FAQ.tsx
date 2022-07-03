@@ -13,7 +13,7 @@ const FAQ: FC = () => {
                 </h1>
                 <details className="mb-4 w-2/5 mt-6 lg:w-4/5">
                     <summary className="font-semibold  bg-gray-200 rounded-md py-2 px-4 dark:text-black">
-                        Where the downloads come from?
+                        Where do the downloads come from?
                     </summary>
                     <span className='text-black dark:text-white'>
                         The npm package download data comes from npm&#39;s <a href="https://github.com/npm/download-counts">download counts</a> api and package details come from <a href="https://api-docs.npms.io/">npms.io</a>
@@ -21,7 +21,7 @@ const FAQ: FC = () => {
                 </details>
                 <details className="mb-4 w-2/5 lg:w-4/5">
                     <summary className="font-semibold bg-gray-200 rounded-md py-2 px-4 dark:text-black">
-                        When the data is updated?
+                        When is the data updated?
                     </summary>
 
                     <span className='text-black dark:text-white'>
@@ -30,7 +30,7 @@ const FAQ: FC = () => {
                 </details>
                 <details className="mb-4 w-2/5 lg:w-4/5">
                     <summary className="font-semibold  bg-gray-200 rounded-md py-2 px-4 dark:text-black">
-                        Who is the creator of npm-search.com?
+                        Who is the creator of this site?
                     </summary>
 
                     <span className='text-black dark:text-white'>
@@ -42,7 +42,7 @@ const FAQ: FC = () => {
                         Can I participate to improve the website?
                     </summary>
                     <span className="text-black dark:text-white">
-                        Of course, this is an open source site and you can contribute by opening issues or by submitting PRs
+                        Of course, this is an open source project and you can contribute by opening issues or by submitting PRs
                     </span>
                 </details>
             </div>
