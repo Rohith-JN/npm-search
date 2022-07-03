@@ -45,7 +45,7 @@ const Main = ({ packageInfo, error, errorCode, errorMessage, labels, data }: { p
     });
     e.preventDefault();
     if (inputRef.current!.value && arr.length === 1) {
-      router.push({ pathname: `/package/${inputRef.current!.value}`, query: { input: inputRef.current!.value } },)
+      router.push({ pathname: `/package/${inputRef.current!.value.toLowerCase()}`, query: { input: inputRef.current!.value.toLowerCase() } },)
       inputRef.current!.value = '';
     }
     else if (inputRef.current!.value && arr.length > 1) {

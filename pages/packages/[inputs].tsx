@@ -28,7 +28,10 @@ ChartJS.register(
 
 export const getServerSideProps = async (context: { params: { inputs: string; }; }) => {
   const input = context.params.inputs;
-  const inputs = input.split(',');
+  let packages = input.split(',');
+  const inputs = packages.map((element: string) => {
+    return element.toLowerCase()
+  })
   const [packageRes] = await Promise.all([
     fetch("https://api.npms.io/v2/package/mget", {
       body: JSON.stringify(inputs),
@@ -73,7 +76,7 @@ const Main = ({ heading, chartData, packageData, error, errorCode, errorMessage,
     });
     e.preventDefault();
     if (inputRef.current!.value && arr.length === 1) {
-      router.push({ pathname: `/package/${inputRef.current!.value}`, query: { input: inputRef.current!.value } },)
+      router.push({ pathname: `/package/${inputRef.current!.value.toLowerCase()}`, query: { input: inputRef.current!.value.toLowerCase() } },)
       inputRef.current!.value = '';
     }
     else if (inputRef.current!.value && arr.length > 1) {
