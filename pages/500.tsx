@@ -6,13 +6,13 @@ const Custom500: FC = () => {
   const router = useRouter()
 
   return (
-    <div className="flex items-center justify-center flex-col w-full h-screen dark:bg-gray-900 dark:text-gray-100 bg-white">
+    <div className="flex items-center justify-center flex-col w-full min-h-screen dark:bg-gray-900 dark:text-gray-100 bg-white">
       <Head>
         <title>npm search | 500</title>
       </Head>
-      <div className="container flex flex-col items-center justify-center px-5 mx-auto my-8">
+      <div className="container flex flex-col items-center justify-center px-5 mx-auto my-8 md:pl-16">
         <div className="max-w-md text-center">
-          <h2 className="mb-8 font-extrabold text-9xl dark:text-gray-600">
+          <h2 className="mb-8 font-extrabold text-9xl xmd:text-8xl dark:text-gray-600">
             <span className="sr-only">Error</span>
             500
           </h2>
