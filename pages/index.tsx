@@ -15,12 +15,27 @@ const Home: NextPage = () => {
     });
     e.preventDefault();
     if (inputRef.current!.value && arr.length === 1) {
-      router.push({ pathname: `/package/${encodeURIComponent(inputRef.current!.value)}`, query: { input: inputRef.current!.value } },)
+      router.push({ pathname: `/package/${inputRef.current!.value.toLowerCase()}`, query: { input: inputRef.current!.value.toLowerCase() } },)
       inputRef.current!.value = '';
     }
     else if (inputRef.current!.value && arr.length > 1) {
       router.push({ pathname: `/packages/${arr}`, query: { input: inputRef.current!.value } },)
       inputRef.current!.value = '';
+    }
+  };
+
+  const submitExamples = (e: { preventDefault: () => void; }, text: string) => {
+    let arr = text.split(' ');
+    arr = arr.filter(e => e !== 'vs');
+    arr = arr.filter(function (value, index, array) {
+      return array.indexOf(value) === index;
+    });
+    e.preventDefault();
+    if (text && arr.length === 1) {
+      router.push({ pathname: `/package/${text.toLowerCase()}`, query: { input: text.toLowerCase() } },)
+    }
+    else if (text && arr.length > 1) {
+      router.push({ pathname: `/packages/${arr}`, query: { input: text } },)
     }
   };
 
@@ -35,7 +50,7 @@ const Home: NextPage = () => {
           Search and view package stats to find the right one for your project
         </p>
         <p className="dark:text-slate-400 text-lg tracking-widest mt-6">
-          Examples: react, redux, vue, nodemon
+          Examples: <span className='cursor-pointer text-blue-500 hover:underline' onClick={(e) => {submitExamples(e, e.currentTarget.innerText)}}>react</span>, <span className='cursor-pointer text-blue-500 hover:underline' onClick={(e) => {submitExamples(e, e.currentTarget.innerText)}}>redux</span>, <span className='cursor-pointer text-blue-500 hover:underline' onClick={(e) => {submitExamples(e, e.currentTarget.innerText)}}>vue</span>, <span className='cursor-pointer text-blue-500 hover:underline' onClick={(e) => {submitExamples(e, e.currentTarget.innerText)}}>next</span>
         </p>
         <div className="flex flex-col items-center justify-center w-4/5 border border-transparent rounded-md mt-2 mb-2 md:w-full md:pr-2">
           <form onSubmit={submitHandler} className='w-full'>
@@ -46,12 +61,12 @@ const Home: NextPage = () => {
           </form>
         </div>
         <p className='dark:text-slate-400 text-2xl mt-3'>Popular examples</p>
-        <p className="dark:text-slate-400 text-lg tracking-widest mt-4">
+        <p className="text-blue-500 text-lg tracking-widest mt-4 cursor-pointer hover:underline" onClick={(e) => {submitExamples(e, e.currentTarget.innerText)}}>
           react vs svelte vs vue</p>
-        <p className="dark:text-slate-400 text-lg tracking-widest">react vs vue</p>
-        <p className="dark:text-slate-400 text-lg tracking-widest">redux vs recoil</p>
-        <p className="dark:text-slate-400 text-lg tracking-widest xmd:hidden">react vs svelte vs vue vs solid-js</p>
-        <p className="dark:text-slate-400 text-lg tracking-widest xmd:hidden">react vs svelte vs vue vs solid-js vs next</p>
+        <p className="text-blue-500 text-lg tracking-widest cursor-pointer hover:underline" onClick={(e) => {submitExamples(e, e.currentTarget.innerText)}}>react vs vue</p>
+        <p className="text-blue-500 text-lg tracking-widest cursor-pointer hover:underline" onClick={(e) => {submitExamples(e, e.currentTarget.innerText)}}>redux vs recoil</p>
+        <p className="text-blue-500 text-lg tracking-widest xmd:hidden cursor-pointer hover:underline" onClick={(e) => {submitExamples(e, e.currentTarget.innerText)}}>react vs svelte vs vue vs solid-js</p>
+        <p className="text-blue-500 text-lg tracking-widest xmd:hidden cursor-pointer hover:underline" onClick={(e) => {submitExamples(e, e.currentTarget.innerText)}}>react vs svelte vs vue vs solid-js vs next</p>
       </div>
     </div>
   )
