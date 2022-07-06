@@ -45,6 +45,14 @@ const FAQ: FC = () => {
                         Of course, this is an open source project and you can contribute by opening issues or by submitting PRs
                     </span>
                 </details>
+                <details className="mb-4 w-2/5 lg:w-4/5">
+                    <summary className="font-semibold  bg-gray-200 rounded-md py-2 px-4 dark:text-black">
+                        What tech stack was used to build this site?
+                    </summary>
+                    <span className="text-black dark:text-white">
+                        This site was built using Next.js, React, TypeScript and Tailwind CSS
+                    </span>
+                </details>
             </div>
         </div>
     )
