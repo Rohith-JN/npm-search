@@ -15,6 +15,8 @@ import {
   Legend,
 } from 'chart.js';
 import { Line } from 'react-chartjs-2';
+import { FaGithub, FaNpm } from 'react-icons/fa';
+import { IoLinkOutline, IoClose } from 'react-icons/io5'
 
 ChartJS.register(
   CategoryScale,
@@ -66,6 +68,7 @@ export const getServerSideProps = async (context: { params: { inputs: string; };
 
 const Main = ({ heading, chartData, packageData, error, errorCode, errorMessage, chartError, chartErrorCode, chartErrorMessage, labels }: { heading: string, chartData: any, packageData: any, error: boolean, errorCode: number, errorMessage: string, labels: Array<number>, chartError: boolean, chartErrorCode: number, chartErrorMessage: string }) => {
   const router = useRouter()
+  const element = useRef();
   const inputRef = useRef<HTMLInputElement>(null);
 
   const submitHandler = (e: { preventDefault: () => void; }) => {
@@ -120,7 +123,7 @@ const Main = ({ heading, chartData, packageData, error, errorCode, errorMessage,
     return (
       <div className="min-h-screen w-full md:pl-20 pl-32 pt-10 pb-12 bg-white dark:bg-gray-900">
         <Head>
-          <title>npm search | {heading}</title>
+          <title>{heading}</title>
         </Head>
         <div className='flex flex-col gap-12'>
           <div className="flex flex-col">
@@ -140,13 +143,15 @@ const Main = ({ heading, chartData, packageData, error, errorCode, errorMessage,
               <Line options={options} data={data} />
             </div>
           </div>
-          <div className="w-5/6 flex flex-col gap-3 mt-12 lg:w-full lg:pr-4">
+          <div className="w-5/6 flex flex-col gap-3 mt-16 lg:w-full lg:pr-4">
             <h1 className='mb-6 text-2xl'>Stats</h1>
             <div className="relative overflow-x-auto shadow-md rounded-xl">
               <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                 <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                   <tr>
                     <th scope="col" className="px-4 py-3">
+                    </th>
+                    <th scope="col" className="px-0 py-3">
                     </th>
                     <th scope="col" className="px-4 py-3">
                       Stars
@@ -168,14 +173,21 @@ const Main = ({ heading, chartData, packageData, error, errorCode, errorMessage,
                       <th scope="row" className="px-6 py-4 font-medium text-gray-900 dark:text-white whitespace-nowrap">
                         {element.collected.metadata.name}
                       </th>
+                      <th scope="row" className="px-0 py-4 font-medium text-gray-900 dark:text-white whitespace-nowrap">
+                        <div className="flex-row flex gap-5">
+                          <a href={element.collected.metadata.links.repository}><FaGithub size={28} className='text-gray-500 dark:text-gray-500 hover:text-black dark:hover:text-white' /></a>
+                          <a href={element.collected.metadata.links.npm}><FaNpm size={30} className='text-gray-500 dark:text-gray-500 dark:hover:text-red-500 hover:text-red-500' /></a>
+                          <a href={element.collected.metadata.links.homepage}><IoLinkOutline size={30} className='text-gray-500 dark:text-gray-500 hover:text-green-500 dark:hover:text-green-500' /></a>
+                        </div>
+                      </th>
                       <td className="px-4 py-4">
-                        {element.collected.github.starsCount.toLocaleString()}
+                        {element.collected.github !== undefined ? element.collected.github.starsCount.toLocaleString() : <p className='text-3xl'>--</p>}
                       </td>
                       <td className="px-4 py-4">
-                        {element.collected.github.forksCount.toLocaleString()}
+                        {element.collected.github !== undefined ? element.collected.github.forksCount.toLocaleString() : <p className='text-3xl'>--</p>}
                       </td>
                       <td className="px-4 py-4">
-                        {element.collected.github.issues.openCount.toLocaleString()}
+                        {element.collected.github !== undefined ? element.collected.github.issues.openCount.toLocaleString() : <p className='text-3xl'>--</p>}
                       </td>
                       <td className="px-4 py-4">
                         v{element.collected.metadata.version}
