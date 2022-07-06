@@ -8,29 +8,29 @@ import Error from '../../components/Error';
 import moment from 'moment';
 
 export const getServerSideProps = async (context: { params: { input: string; }; }) => {
-    const input = context.params.input;
-    const [packageRes, chartRes] = await Promise.all([
-      fetch(`https://api.npms.io/v2/package/${input}`),
-      fetch(`https://api.npmjs.org/downloads/range/last-week/${input}`),
-    ])
-    const [packageData, chartData] = await Promise.all([
-      packageRes.json(),
-      chartRes.json(),
-    ])
-    let labels = [];
-    let data = [];
-    if (chartRes.ok) {
-      labels = chartData.downloads.map((item: any) => moment(item.day).format("MMM Do"));
-      data = chartData.downloads.map((item: any) => item.downloads);
-    }
-    else {
-      labels = []
-      data = []
-    }
-    const error = packageRes.ok ? false : true;
-    const errorCode = packageRes.ok ? 200 : packageRes.status
-    const errorMessage = error ? packageData.message : ''
-    return { props: { packageInfo: packageData, error, errorCode, errorMessage, labels, data } }
+  const input = context.params.input;
+  const [packageRes, chartRes] = await Promise.all([
+    fetch(`https://api.npms.io/v2/package/${input}`),
+    fetch(`https://api.npmjs.org/downloads/range/last-week/${input}`),
+  ])
+  const [packageData, chartData] = await Promise.all([
+    packageRes.json(),
+    chartRes.json(),
+  ])
+  let labels = [];
+  let data = [];
+  if (chartRes.ok) {
+    labels = chartData.downloads.map((item: any) => moment(item.day).format("MMM Do"));
+    data = chartData.downloads.map((item: any) => item.downloads);
+  }
+  else {
+    labels = []
+    data = []
+  }
+  const error = packageRes.ok ? false : true;
+  const errorCode = packageRes.ok ? 200 : packageRes.status
+  const errorMessage = error ? packageData.message : ''
+  return { props: { packageInfo: packageData, error, errorCode, errorMessage, labels, data } }
 }
 
 const Main = ({ packageInfo, error, errorCode, errorMessage, labels, data }: { packageInfo: any, error: boolean, errorCode: number, errorMessage: string, labels: Array<number>, data: Array<number> }) => {
@@ -90,9 +90,9 @@ const Main = ({ packageInfo, error, errorCode, errorMessage, labels, data }: { p
           <Chart input={input} chartLabels={labels} chartData={data} />
           <PackageInfo
             input={input}
-            stars={packageInfo.collected.github.starsCount.toLocaleString()}
-            forks={packageInfo.collected.github.forksCount.toLocaleString()}
-            issues={packageInfo.collected.github.issues.openCount.toLocaleString()}
+            stars={packageInfo.collected.github !== undefined ? packageInfo.collected.github.starsCount.toLocaleString() : <p className='text-3xl'>--</p>}
+            forks={packageInfo.collected.github !== undefined ? packageInfo.collected.github.forksCount.toLocaleString() : <p className='text-3xl'>--</p>}
+            issues={packageInfo.collected.github !== undefined ? packageInfo.collected.github.issues.openCount.toLocaleString() : <p className='text-3xl'>--</p>}
             version={packageInfo.collected.metadata.version}
           />
         </div>

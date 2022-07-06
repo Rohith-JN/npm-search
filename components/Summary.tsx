@@ -1,5 +1,4 @@
-import React, { useRef, FC } from 'react';
-import copy from "copy-to-clipboard";
+import React, { FC } from 'react';
 
 interface SummaryProps {
   heading: string;
