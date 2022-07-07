@@ -1,5 +1,5 @@
 import type { NextPage } from 'next'
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import { useRouter } from 'next/router'
 import Head from 'next/head';
 
@@ -24,6 +24,21 @@ const Home: NextPage = () => {
     }
   };
 
+  async function getNames(input: string) {
+    setUnderline(true)
+    const response = await fetch(`https://registry.npmjs.org/-/v1/search?text=${input}&size=5`)
+    const data = await response.json();
+    if (input.length > 0) {
+      setNames(data.objects.map((item: { package: { name: any } }) => item.package.name));
+    }
+    else {
+      setNames([]);
+      setUnderline(false)
+    }
+  }
+  const [names, setNames] = useState([]);
+  const [underline, setUnderline] = useState(false);
+
   const submitExamples = (e: { preventDefault: () => void; }, text: string) => {
     let arr = text.split(' ');
     arr = arr.filter(e => e !== 'vs');
@@ -40,7 +55,7 @@ const Home: NextPage = () => {
   };
 
   return (
-    <div className="bg-white dark:bg-gray-900 w-full h-screen flex pl-32 pt-11 md:pl-20" id="Home">
+    <div className="bg-white dark:bg-gray-900 w-full min-h-screen pb-10 flex pl-32 pt-11 md:pl-20" id="Home">
       <Head>
         <title>npm search | Home</title>
       </Head>
@@ -50,23 +65,30 @@ const Home: NextPage = () => {
           Search and view package stats to find the right one for your project
         </p>
         <p className="dark:text-slate-400 text-lg tracking-widest mt-6">
-          Examples: <span className='cursor-pointer text-blue-500 hover:underline' onClick={(e) => {submitExamples(e, e.currentTarget.innerText)}}>react</span>, <span className='cursor-pointer text-blue-500 hover:underline' onClick={(e) => {submitExamples(e, e.currentTarget.innerText)}}>redux</span>, <span className='cursor-pointer text-blue-500 hover:underline' onClick={(e) => {submitExamples(e, e.currentTarget.innerText)}}>vue</span>, <span className='cursor-pointer text-blue-500 hover:underline' onClick={(e) => {submitExamples(e, e.currentTarget.innerText)}}>next</span>
+          Examples: <span className='cursor-pointer text-blue-500 hover:underline' onClick={(e) => { submitExamples(e, e.currentTarget.innerText) }}>react</span>, <span className='cursor-pointer text-blue-500 hover:underline' onClick={(e) => { submitExamples(e, e.currentTarget.innerText) }}>redux</span>, <span className='cursor-pointer text-blue-500 hover:underline' onClick={(e) => { submitExamples(e, e.currentTarget.innerText) }}>vue</span>, <span className='cursor-pointer text-blue-500 hover:underline' onClick={(e) => { submitExamples(e, e.currentTarget.innerText) }}>next</span>
         </p>
         <div className="flex flex-col items-center justify-center w-4/5 border border-transparent rounded-md mt-2 mb-2 md:w-full md:pr-2">
           <form onSubmit={submitHandler} className='w-full'>
-            <div className="flex gap-2 w-full">
-              <input type="search" ref={inputRef} autoComplete="off" className="focus:border-gray-400 w-full px-3 py-1.5 text-base font-normal dark:text-white dark:bg-transparent border-2 border-solid dark:border-gray-300 rounded dark:focus:border-blue-600 focus:outline-none" placeholder="Search a NPM package" aria-label="Search" aria-describedby="button-addon3" spellCheck='false'></input>
-              <button onClick={submitHandler} className="btn tracking-wide inline-block px-6 py-2 border-2 dark:border-blue-600 dark:text-blue-600 hover:bg-gray-400 border-gray-400 font-medium text-s leading-tight rounded focus:outline-none focus:ring-0 transition duration-150 ease-in-out dark:hover:bg-blue-600 dark:hover:text-white hover:text-white xmd:hidden" type="button" id="button-addon3">Search</button>
+            <div className="flex w-full flex-col border-2 rounded-lg pt-2 border-blue-500">
+              <div className="flex flex-row gap-2">
+                <input type="search" ref={inputRef} autoComplete="off" className="focus:border-gray-400 rounded-lg w-full px-3 pb-2 text-base font-normal dark:text-white dark:bg-transparent focus:outline-none" placeholder="Search a NPM package" aria-label="Search" aria-describedby="button-addon3" spellCheck='false' onChange={(e) => getNames(e.target.value)}></input>
+              </div>
+              <div className={`w-full h-0.5 bg-blue-500 ${underline ? "flex" : "hidden"}`}></div>
+              <ul className='w-full'>
+                {names.map((name: string) =>
+                  <li className='w-full px-3 py-3 hover:bg-blue-500 text-base font-normal dark:text-white text-black hover:text-white cursor-pointer transition duration-150 ease-in-out' onClick={(e) => submitExamples(e, name)} key={name}>{name}</li>
+                )}
+              </ul>
             </div>
           </form>
         </div>
         <p className='dark:text-slate-400 text-2xl mt-3'>Popular examples</p>
-        <p className="text-blue-500 text-lg tracking-widest mt-4 cursor-pointer hover:underline" onClick={(e) => {submitExamples(e, e.currentTarget.innerText)}}>
+        <p className="text-blue-500 text-lg tracking-widest mt-4 cursor-pointer hover:underline" onClick={(e) => { submitExamples(e, e.currentTarget.innerText) }}>
           react vs svelte vs vue</p>
-        <p className="text-blue-500 text-lg tracking-widest cursor-pointer hover:underline" onClick={(e) => {submitExamples(e, e.currentTarget.innerText)}}>react vs vue</p>
-        <p className="text-blue-500 text-lg tracking-widest cursor-pointer hover:underline" onClick={(e) => {submitExamples(e, e.currentTarget.innerText)}}>redux vs recoil</p>
-        <p className="text-blue-500 text-lg tracking-widest xmd:hidden cursor-pointer hover:underline" onClick={(e) => {submitExamples(e, e.currentTarget.innerText)}}>react vs svelte vs vue vs solid-js</p>
-        <p className="text-blue-500 text-lg tracking-widest xmd:hidden cursor-pointer hover:underline" onClick={(e) => {submitExamples(e, e.currentTarget.innerText)}}>react vs svelte vs vue vs solid-js vs next</p>
+        <p className="text-blue-500 text-lg tracking-widest cursor-pointer hover:underline" onClick={(e) => { submitExamples(e, e.currentTarget.innerText) }}>react vs vue</p>
+        <p className="text-blue-500 text-lg tracking-widest cursor-pointer hover:underline" onClick={(e) => { submitExamples(e, e.currentTarget.innerText) }}>redux vs recoil</p>
+        <p className="text-blue-500 text-lg tracking-widest xmd:hidden cursor-pointer hover:underline" onClick={(e) => { submitExamples(e, e.currentTarget.innerText) }}>react vs svelte vs vue vs solid-js</p>
+        <p className="text-blue-500 text-lg tracking-widest xmd:hidden cursor-pointer hover:underline" onClick={(e) => { submitExamples(e, e.currentTarget.innerText) }}>react vs svelte vs vue vs solid-js vs next</p>
       </div>
     </div>
   )
