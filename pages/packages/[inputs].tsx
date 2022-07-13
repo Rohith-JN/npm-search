@@ -2,7 +2,6 @@ import React, { useRef, useState } from 'react';
 import { useRouter } from "next/router"
 import Head from 'next/head';
 import moment from 'moment';
-import options from '../../components/options';
 import Error from '../../components/Error';
 import {
   Chart as ChartJS,
@@ -18,6 +17,7 @@ import { Line } from 'react-chartjs-2';
 import { FaGithub, FaNpm } from 'react-icons/fa';
 import { IoLinkOutline } from 'react-icons/io5'
 import { dynamicColors } from '../../utils/utils';
+import { useTheme } from 'next-themes'
 
 ChartJS.register(
   CategoryScale,
@@ -53,17 +53,35 @@ export const getServerSideProps = async (context: { params: { inputs: string; };
   packageData = Object.values(packageData)
   chartData = Object.values(chartData)
   const heading = inputs.join(' vs ')
-  const chartError = chartRes.ok ? false : true
-  const chartErrorCode = chartRes.ok ? 200 : chartRes.status
+  let chartError = chartRes.ok ? false : true
+  let chartErrorCode = chartRes.ok ? 200 : chartRes.status
   const chartErrorMessage = chartError ? chartData.message : ''
   const labels = chartError ? [] : chartData[Object.keys(chartData)[0]].downloads.map((item: any) => moment(item.day).format("MMM Do"));
   const error = packageRes.ok ? false : true;
   const errorCode = packageRes.ok ? 200 : packageRes.status
   const errorMessage = error ? packageData.message : ''
-  return { props: { heading, chartData, packageData, error, errorCode, errorMessage, chartError, chartErrorCode, chartErrorMessage, labels } }
+  let datasets: any = [];
+  chartData.forEach((element: any) => {
+    if (element === null) {
+      chartError = true
+      chartErrorCode = 404
+    }
+    else {
+      Object.assign(element, { "color": dynamicColors() })
+      datasets.push({
+        label: element.package,
+        data: element.downloads.map((item: any) => item.downloads),
+        fill: true,
+        backgroundColor: element.color,
+        borderColor: element.color,
+        lineTension: 0.4,
+      })
+    }
+  });
+  return { props: { heading, chartData, packageData, error, errorCode, errorMessage, chartError, chartErrorCode, chartErrorMessage, labels, datasets } }
 }
 
-const Main = ({ heading, chartData, packageData, error, errorCode, errorMessage, chartError, chartErrorCode, chartErrorMessage, labels }: { heading: string, chartData: any, packageData: any, error: boolean, errorCode: number, errorMessage: string, labels: Array<number>, chartError: boolean, chartErrorCode: number, chartErrorMessage: string }) => {
+const Main = ({ heading, chartData, packageData, error, errorCode, errorMessage, chartError, chartErrorCode, chartErrorMessage, labels, datasets }: { heading: string, chartData: any, packageData: any, error: boolean, errorCode: number, errorMessage: string, labels: Array<number>, chartError: boolean, chartErrorCode: number, chartErrorMessage: string, datasets: any }) => {
   const router = useRouter();
   const [names, setNames] = useState([]);
   const [underline, setUnderline] = useState(false);
@@ -120,24 +138,48 @@ const Main = ({ heading, chartData, packageData, error, errorCode, errorMessage,
     }
   };
 
-  let datasets: any = []
-  chartData.forEach((element: any) => {
-    if (element === null) {
-      chartError = true
-      chartErrorCode = 404
+  const { theme, setTheme } = useTheme()
+
+  const options: any = {
+    tooltips: {
+      enabled: true,
+      mode: "label"
+    },
+    bezierCurve: true,
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: {
+        position: 'top',
+        display: true,
+        labels: {
+          usePointStyle: true,
+        }
+      },
+      title: {
+        display: false,
+      },
+    },
+    interaction: {
+      intersect: false,
+    },
+    scales: {
+      x: {
+        ticks: { color: 'gray' },
+        grid: {
+          color: theme === 'light' ? '#E4E0E3' : '#2D3033',
+          borderColor: 'gray',
+        }
+      },
+      y: {
+        ticks: { color: 'gray' },
+        grid: {
+          color: theme === 'light' ? '#E4E0E3' : '#2D3033',
+          borderColor: 'gray',
+        }
+      }
     }
-    else {
-      Object.assign(element, { "color": dynamicColors() })
-      datasets.push({
-        label: element.package,
-        data: element.downloads.map((item: any) => item.downloads),
-        fill: true,
-        backgroundColor: element.color,
-        borderColor: element.color,
-        lineTension: 0.4,
-      })
-    }
-  });
+  };
 
   const data = {
     labels: labels,
@@ -162,7 +204,7 @@ const Main = ({ heading, chartData, packageData, error, errorCode, errorMessage,
               <form onSubmit={submitHandler} className='w-full'>
                 <div className="flex w-full flex-col border-2 rounded-lg pt-2 mt-2 border-blue-500">
                   <div className="flex flex-row gap-2">
-                    <input type="search" ref={inputRef} autoComplete="off" className="focus:border-gray-400 rounded-lg w-full px-3 pb-2 text-base font-normal dark:text-white dark:bg-transparent focus:outline-none" placeholder="Search a NPM package" aria-label="Search" aria-describedby="button-addon3" spellCheck='false' onChange={(e) => getNames(e.target.value)}></input>
+                    <input type="search" ref={inputRef} autoComplete="off" className="focus:border-gray-400 rounded-lg w-full px-3 pb-2 text-base font-normal dark:text-white dark:bg-transparent focus:outline-none" placeholder="Enter a NPM package" aria-label="Search" aria-describedby="button-addon3" spellCheck='false' onChange={(e) => getNames(e.target.value)}></input>
                   </div>
                   <div className={`w-full h-0.5 bg-blue-500 ${underline ? "flex" : "hidden"}`}></div>
                   <ul className='w-full'>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -10,7 +10,7 @@ import {
   Legend,
 } from 'chart.js';
 import { Line } from 'react-chartjs-2';
-import options from '../components/options';
+import { useTheme } from 'next-themes';
 
 ChartJS.register(
   CategoryScale,
@@ -36,6 +36,49 @@ const Chart = ({ chartLabels, chartData, input }: { chartLabels: Array<number>, 
         lineTension: 0.4,
       },
     ],
+  };
+
+  const { theme, setTheme } = useTheme()
+
+  const options: any = {
+    tooltips: {
+      enabled: true,
+      mode: "label"
+    },
+    bezierCurve: true,
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: {
+        position: 'top',
+        display: true,
+        labels: {
+          usePointStyle: true,
+        }
+      },
+      title: {
+        display: false,
+      },
+    },
+    interaction: {
+      intersect: false,
+    },
+    scales: {
+      x: {
+        ticks: { color: 'gray' },
+        grid: {
+          color: theme === 'light' ? '#E4E0E3' : '#2D3033',
+          borderColor: 'gray',
+        }
+      },
+      y: {
+        ticks: { color: 'gray' },
+        grid: {
+          color: theme === 'light' ? '#E4E0E3' : '#2D3033',
+          borderColor: 'gray',
+        }
+      }
+    }
   };
 
   data.labels = chartLabels;

@@ -86,7 +86,7 @@ const Main = ({ packageInfo, error, errorCode, errorMessage, labels, data }: { p
       router.push({ pathname: `/package/${encodeURIComponent(text.toLowerCase())}` },)
     }
     else if (text && arr.length > 1) {
-      router.push({ pathname: `/packages/${arr}`},)
+      router.push({ pathname: `/packages/${arr}` },)
     }
   };
 
@@ -117,7 +117,7 @@ const Main = ({ packageInfo, error, errorCode, errorMessage, labels, data }: { p
               <form onSubmit={submitHandler} className='w-full pt-2'>
                 <div className="flex w-full flex-col border-2 rounded-lg pt-2 border-blue-500">
                   <div className="flex flex-row gap-2">
-                    <input type="search" ref={inputRef} autoComplete="off" className="focus:border-gray-400 rounded-lg w-full px-3 pb-2 text-base font-normal dark:text-white dark:bg-transparent focus:outline-none" placeholder="Search a NPM package" aria-label="Search" aria-describedby="button-addon3" spellCheck='false' onChange={(e) => getNames(e.target.value)}></input>
+                    <input type="search" ref={inputRef} autoComplete="off" className="focus:border-gray-400 rounded-lg w-full px-3 pb-2 text-base font-normal dark:text-white dark:bg-transparent focus:outline-none" placeholder="Enter a NPM package" aria-label="Search" aria-describedby="button-addon3" spellCheck='false' onChange={(e) => getNames(e.target.value)}></input>
                   </div>
                   <div className={`w-full h-0.5 bg-blue-500 ${underline ? "flex" : "hidden"}`}></div>
                   <ul className='w-full'>
