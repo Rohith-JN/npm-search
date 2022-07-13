@@ -1,7 +1,9 @@
 import type { NextPage } from 'next'
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { useRouter } from 'next/router'
 import Head from 'next/head';
+import { DarkModeSwitch } from 'react-toggle-dark-mode';
+import { useTheme } from 'next-themes'
 
 const Home: NextPage = () => {
   const router = useRouter()
@@ -60,13 +62,39 @@ const Home: NextPage = () => {
     }
   };
 
+  const { theme, setTheme } = useTheme()
+  const [mounted, setMounted] = useState(false);
+  const [darkMode, setDarkMode] = useState(theme === 'light' ? true : false);
+
+  const toggleDarkMode = (checked: boolean) => {
+    setTheme(theme === 'light' ? 'dark' : 'light')
+    setDarkMode(checked);
+  };
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) {
+    return null
+  }
+
   return (
-    <div className="bg-white dark:bg-gray-900 w-full min-h-screen pb-10 flex pl-32 pt-11 md:pl-20" id="Home">
+    <div className="bg-white dark:bg-gray-900 w-full min-h-screen pb-10 flex pl-32 pt-11 md:pl-4 pr-2" id="Home">
       <Head>
         <title>npm search | Home</title>
       </Head>
       <div className="flex flex-col gap-0 w-full">
-        <h1 className="dark:text-slate-300 font-thin text-4xl">npm search</h1>
+        <div className="flex flex-row items-center justify-between pr-3">
+          <h1 className="dark:text-slate-300 font-thin text-4xl">npm search</h1>
+          <DarkModeSwitch className='mmd:hidden'
+            checked={darkMode}
+            onChange={toggleDarkMode}
+            size={30}
+            moonColor="black"
+            sunColor="#fff"
+          />
+        </div>
         <p className='dark:text-slate-400 text-3xl font-normal mt-6 tracking-wide xmd:text-2xl'>
           Search and view package stats to find the right one for your project
         </p>
@@ -96,6 +124,7 @@ const Home: NextPage = () => {
         <p className="text-blue-500 text-lg tracking-widest xmd:hidden cursor-pointer hover:underline" onClick={(e) => { submitExamples(e, e.currentTarget.innerText) }}>react-bootstrap vs reactstrap</p>
         <p className="text-blue-500 text-lg tracking-widest xmd:hidden cursor-pointer hover:underline" onClick={(e) => { submitExamples(e, e.currentTarget.innerText) }}>next vs nuxt</p>
       </div>
+      <p className="text-blue-500 text-lg tracking-widest cursor-pointer hover:underline mmd:hidden absolute bottom-1" onClick={() => router.push("/FAQ")}>FAQ</p>
     </div>
   )
 }

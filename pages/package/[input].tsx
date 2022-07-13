@@ -95,7 +95,7 @@ const Main = ({ packageInfo, error, errorCode, errorMessage, labels, data }: { p
   }
   else {
     return (
-      <div className="min-h-screen w-full pl-32 pt-10 pb-12 md:pl-20 bg-white dark:bg-gray-900">
+      <div className="min-h-screen w-full pl-32 pt-10 pb-12 md:pl-4 pr-2 bg-white dark:bg-gray-900">
         <Head>
           <title>npm search | {packageInfo.collected.metadata.name}</title>
         </Head>

@@ -151,7 +151,7 @@ const Main = ({ heading, chartData, packageData, error, errorCode, errorMessage,
   }
   else {
     return (
-      <div className="min-h-screen w-full md:pl-20 pl-32 pt-10 pb-12 bg-white dark:bg-gray-900">
+      <div className="min-h-screen w-full md:pl-4 pl-32 pt-10 pb-12 pr-2 bg-white dark:bg-gray-900">
         <Head>
           <title>{heading}</title>
         </Head>
@@ -188,7 +188,7 @@ const Main = ({ heading, chartData, packageData, error, errorCode, errorMessage,
                   <tr>
                     <th scope="col" className="px-4 py-3">
                     </th>
-                    <th scope="col" className="px-0 py-3">
+                    <th scope="col" className="px-0 py-3 md:hidden">
                     </th>
                     <th scope="col" className="px-4 py-3">
                       Stars
@@ -210,7 +210,7 @@ const Main = ({ heading, chartData, packageData, error, errorCode, errorMessage,
                       <th scope="row" className="px-6 py-4 font-medium text-gray-900 dark:text-white whitespace-nowrap">
                         {element.collected.metadata.name}
                       </th>
-                      <th scope="row" className="px-0 py-4 font-medium text-gray-900 dark:text-white whitespace-nowrap">
+                      <th scope="row" className="px-0 py-4 font-medium text-gray-900 dark:text-white whitespace-nowrap md:hidden">
                         <div className="flex-row flex gap-5">
                           <a href={element.collected.metadata.links.repository}><FaGithub size={28} className='text-gray-500 dark:text-gray-500 hover:text-black dark:hover:text-white' /></a>
                           <a href={element.collected.metadata.links.npm}><FaNpm size={30} className='text-gray-500 dark:text-gray-500 dark:hover:text-red-500 hover:text-red-500' /></a>
