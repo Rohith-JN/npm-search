@@ -124,7 +124,6 @@ const Home: NextPage = () => {
         <p className="text-blue-500 text-lg tracking-widest xmd:hidden cursor-pointer hover:underline" onClick={(e) => { submitExamples(e, e.currentTarget.innerText) }}>react-bootstrap vs reactstrap</p>
         <p className="text-blue-500 text-lg tracking-widest xmd:hidden cursor-pointer hover:underline" onClick={(e) => { submitExamples(e, e.currentTarget.innerText) }}>next vs nuxt</p>
       </div>
-      <p className="text-blue-500 text-lg tracking-widest cursor-pointer hover:underline mmd:hidden absolute bottom-1" onClick={() => router.push("/FAQ")}>FAQ</p>
     </div>
   )
 }
