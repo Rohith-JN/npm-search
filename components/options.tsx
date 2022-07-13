@@ -1,4 +1,8 @@
 const options: any = {
+  tooltips: {
+    enabled: true,
+    mode: "label"
+  },
   bezierCurve: true,
   responsive: true,
   maintainAspectRatio: false,

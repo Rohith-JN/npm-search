@@ -30,7 +30,6 @@ const Chart = ({ chartLabels, chartData, input }: { chartLabels: Array<number>, 
       {
         label: '',
         data: [] as any[],
-        pointRadius: 0,
         fill: true,
         backgroundColor: '#1e88e5',
         borderColor: '#1e88e5',
