@@ -13,13 +13,16 @@ const Home: NextPage = () => {
     arr = arr.filter(function (value, index, array) {
       return array.indexOf(value) === index;
     });
+    arr.forEach((value: string) => {
+      encodeURIComponent(value)
+    })
     e.preventDefault();
     if (inputRef.current!.value && arr.length === 1) {
-      router.push({ pathname: `/package/${inputRef.current!.value.toLowerCase()}`, query: { input: inputRef.current!.value.toLowerCase() } },)
+      router.push({ pathname: `/package/${encodeURIComponent(inputRef.current!.value.toLowerCase())}` },)
       inputRef.current!.value = '';
     }
     else if (inputRef.current!.value && arr.length > 1) {
-      router.push({ pathname: `/packages/${arr}`, query: { input: inputRef.current!.value } },)
+      router.push({ pathname: `/packages/${arr}` })
       inputRef.current!.value = '';
     }
   };
@@ -45,12 +48,15 @@ const Home: NextPage = () => {
     arr = arr.filter(function (value, index, array) {
       return array.indexOf(value) === index;
     });
+    arr.forEach((value: string) => {
+      encodeURIComponent(value)
+    })
     e.preventDefault();
     if (text && arr.length === 1) {
-      router.push({ pathname: `/package/${text.toLowerCase()}`, query: { input: text.toLowerCase() } },)
+      router.push({ pathname: `/package/${encodeURIComponent(text.toLowerCase())}` })
     }
     else if (text && arr.length > 1) {
-      router.push({ pathname: `/packages/${arr}`, query: { input: text } },)
+      router.push({ pathname: `/packages/${arr}` })
     }
   };
 
@@ -87,8 +93,8 @@ const Home: NextPage = () => {
           react vs svelte vs vue</p>
         <p className="text-blue-500 text-lg tracking-widest cursor-pointer hover:underline" onClick={(e) => { submitExamples(e, e.currentTarget.innerText) }}>react vs vue</p>
         <p className="text-blue-500 text-lg tracking-widest cursor-pointer hover:underline" onClick={(e) => { submitExamples(e, e.currentTarget.innerText) }}>redux vs recoil</p>
-        <p className="text-blue-500 text-lg tracking-widest xmd:hidden cursor-pointer hover:underline" onClick={(e) => { submitExamples(e, e.currentTarget.innerText) }}>react vs svelte vs vue vs solid-js</p>
-        <p className="text-blue-500 text-lg tracking-widest xmd:hidden cursor-pointer hover:underline" onClick={(e) => { submitExamples(e, e.currentTarget.innerText) }}>react vs svelte vs vue vs solid-js vs next</p>
+        <p className="text-blue-500 text-lg tracking-widest xmd:hidden cursor-pointer hover:underline" onClick={(e) => { submitExamples(e, e.currentTarget.innerText) }}>react-bootstrap vs reactstrap</p>
+        <p className="text-blue-500 text-lg tracking-widest xmd:hidden cursor-pointer hover:underline" onClick={(e) => { submitExamples(e, e.currentTarget.innerText) }}>next vs nuxt</p>
       </div>
     </div>
   )

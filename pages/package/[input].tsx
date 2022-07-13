@@ -8,7 +8,7 @@ import Error from '../../components/Error';
 import moment from 'moment';
 
 export const getServerSideProps = async (context: { params: { input: string; }; }) => {
-  const input = context.params.input;
+  const input = encodeURIComponent(context.params.input);
   const [packageRes, chartRes] = await Promise.all([
     fetch(`https://api.npms.io/v2/package/${input}`),
     fetch(`https://api.npmjs.org/downloads/range/last-week/${input}`),
@@ -53,18 +53,21 @@ const Main = ({ packageInfo, error, errorCode, errorMessage, labels, data }: { p
   }
 
   const submitHandler = (e: { preventDefault: () => void; }) => {
+    e.preventDefault();
     let arr = inputRef.current!.value.split(' ');
     arr = arr.filter(e => e !== 'vs');
     arr = arr.filter(function (value, index, array) {
       return array.indexOf(value) === index;
     });
-    e.preventDefault();
+    arr.forEach((value: string) => {
+      encodeURIComponent(value)
+    })
     if (inputRef.current!.value && arr.length === 1) {
-      router.push({ pathname: `/package/${inputRef.current!.value.toLowerCase()}`, query: { input: inputRef.current!.value.toLowerCase() } },)
+      router.push({ pathname: `/package/${encodeURIComponent(inputRef.current!.value.toLowerCase())}` },)
       inputRef.current!.value = '';
     }
     else if (inputRef.current!.value && arr.length > 1) {
-      router.push({ pathname: `/packages/${arr}`, query: { input: inputRef.current!.value } },)
+      router.push({ pathname: `/packages/${arr}` },)
       inputRef.current!.value = '';
     }
   };
@@ -75,16 +78,18 @@ const Main = ({ packageInfo, error, errorCode, errorMessage, labels, data }: { p
     arr = arr.filter(function (value, index, array) {
       return array.indexOf(value) === index;
     });
+    arr.forEach((value: string) => {
+      encodeURIComponent(value)
+    })
     e.preventDefault();
     if (text && arr.length === 1) {
-      router.push({ pathname: `/package/${text.toLowerCase()}`, query: { input: text.toLowerCase() } },)
+      router.push({ pathname: `/package/${encodeURIComponent(text.toLowerCase())}` },)
     }
     else if (text && arr.length > 1) {
-      router.push({ pathname: `/packages/${arr}`, query: { input: text } },)
+      router.push({ pathname: `/packages/${arr}`},)
     }
   };
 
-  const { query: { input }, } = router
   if (error) {
     return <Error statusCode={errorCode} statusMessage={errorMessage} />
   }
@@ -109,7 +114,7 @@ const Main = ({ packageInfo, error, errorCode, errorMessage, labels, data }: { p
               github={packageInfo.collected.metadata.links.repository}
             />
             <div className="flex flex-col items-center justify-center w-4/5 border border-transparent rounded-md mt-2 mb-2 md:w-full md:pr-2">
-              <form onSubmit={submitHandler} className='w-full'>
+              <form onSubmit={submitHandler} className='w-full pt-2'>
                 <div className="flex w-full flex-col border-2 rounded-lg pt-2 border-blue-500">
                   <div className="flex flex-row gap-2">
                     <input type="search" ref={inputRef} autoComplete="off" className="focus:border-gray-400 rounded-lg w-full px-3 pb-2 text-base font-normal dark:text-white dark:bg-transparent focus:outline-none" placeholder="Search a NPM package" aria-label="Search" aria-describedby="button-addon3" spellCheck='false' onChange={(e) => getNames(e.target.value)}></input>
@@ -124,9 +129,9 @@ const Main = ({ packageInfo, error, errorCode, errorMessage, labels, data }: { p
               </form>
             </div>
           </div>
-          <Chart input={input} chartLabels={labels} chartData={data} />
+          <Chart input={packageInfo.collected.metadata.name} chartLabels={labels} chartData={data} />
           <PackageInfo
-            input={input}
+            input={packageInfo.collected.metadata.name}
             stars={packageInfo.collected.github !== undefined ? packageInfo.collected.github.starsCount.toLocaleString() : <p className='text-3xl'>--</p>}
             forks={packageInfo.collected.github !== undefined ? packageInfo.collected.github.forksCount.toLocaleString() : <p className='text-3xl'>--</p>}
             issues={packageInfo.collected.github !== undefined ? packageInfo.collected.github.issues.openCount.toLocaleString() : <p className='text-3xl'>--</p>}

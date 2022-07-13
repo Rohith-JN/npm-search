@@ -16,7 +16,8 @@ import {
 } from 'chart.js';
 import { Line } from 'react-chartjs-2';
 import { FaGithub, FaNpm } from 'react-icons/fa';
-import { IoLinkOutline, IoClose } from 'react-icons/io5'
+import { IoLinkOutline } from 'react-icons/io5'
+import { dynamicColors } from '../../utils/utils';
 
 ChartJS.register(
   CategoryScale,
@@ -32,9 +33,9 @@ export const getServerSideProps = async (context: { params: { inputs: string; };
   const input = context.params.inputs;
   let packages = input.split(',');
   const inputs = packages.map((element: string) => {
-    return element.toLowerCase()
+    return encodeURIComponent(element.toLowerCase())
   })
-  const [packageRes] = await Promise.all([
+  const [packageRes, chartRes] = await Promise.all([
     fetch("https://api.npms.io/v2/package/mget", {
       body: JSON.stringify(inputs),
       headers: {
@@ -43,23 +44,19 @@ export const getServerSideProps = async (context: { params: { inputs: string; };
       },
       method: "POST"
     }),
+    fetch(`https://api.npmjs.org/downloads/range/last-week/${input}`)
   ])
-  let [packageData] = await Promise.all([
+  let [packageData, chartData] = await Promise.all([
     packageRes.json(),
+    chartRes.json()
   ])
-  const chartRes = await Promise.all(inputs.map((input: any) => fetch(`https://api.npmjs.org/downloads/range/last-week/${input}`)))
   packageData = Object.values(packageData)
+  chartData = Object.values(chartData)
   const heading = inputs.join(' vs ')
-  let chartError = false;
-  let chartErrorCode = 200;
-  let chartErrorMessage = '';
-  chartRes.forEach((response) => {
-    chartError = response.ok ? false : true
-    chartErrorCode = response.ok ? 200 : response.status
-    chartErrorMessage = chartError ? 'Oops! something went wrong' : ''
-  })
-  const chartData = chartError ? [] : await Promise.all(chartRes.map(p => p.json()))
-  const labels = chartError ? [] : chartData[0].downloads.map((item: any) => moment(item.day).format("MMM Do"));
+  const chartError = chartRes.ok ? false : true
+  const chartErrorCode = chartRes.ok ? 200 : chartRes.status
+  const chartErrorMessage = chartError ? chartData.message : ''
+  const labels = chartError ? [] : chartData[Object.keys(chartData)[0]].downloads.map((item: any) => moment(item.day).format("MMM Do"));
   const error = packageRes.ok ? false : true;
   const errorCode = packageRes.ok ? 200 : packageRes.status
   const errorMessage = error ? packageData.message : ''
@@ -91,12 +88,15 @@ const Main = ({ heading, chartData, packageData, error, errorCode, errorMessage,
     arr = arr.filter(function (value, index, array) {
       return array.indexOf(value) === index;
     });
+    arr.forEach((value: string) => {
+      encodeURIComponent(value)
+    })
     e.preventDefault();
     if (text && arr.length === 1) {
-      router.push({ pathname: `/package/${text.toLowerCase()}`, query: { input: text.toLowerCase() } },)
+      router.push({ pathname: `/package/${encodeURIComponent(text.toLowerCase())}` })
     }
     else if (text && arr.length > 1) {
-      router.push({ pathname: `/packages/${arr}`, query: { input: text } },)
+      router.push({ pathname: `/packages/${arr}` },)
     }
   };
 
@@ -106,36 +106,37 @@ const Main = ({ heading, chartData, packageData, error, errorCode, errorMessage,
     arr = arr.filter(function (value, index, array) {
       return array.indexOf(value) === index;
     });
+    arr.forEach((value: string) => {
+      encodeURIComponent(value)
+    })
     e.preventDefault();
     if (inputRef.current!.value && arr.length === 1) {
-      router.push({ pathname: `/package/${inputRef.current!.value.toLowerCase()}`, query: { input: inputRef.current!.value.toLowerCase() } },)
+      router.push({ pathname: `/package/${encodeURIComponent(inputRef.current!.value.toLowerCase())}` },)
       inputRef.current!.value = '';
     }
     else if (inputRef.current!.value && arr.length > 1) {
-      router.push({ pathname: `/packages/${arr}`, query: { input: inputRef.current!.value } },)
+      router.push({ pathname: `/packages/${arr}` },)
       inputRef.current!.value = '';
     }
   };
 
-  var dynamicColors = function () {
-    const red = Math.floor(Math.random() * 210);
-    const green = Math.floor(Math.random() * 210);
-    const blue = Math.floor(Math.random() * 210);
-    return "rgb(" + red + ", " + green + ", " + blue + ")";
-  };
-
   let datasets: any = []
-
   chartData.forEach((element: any) => {
-    Object.assign(element, { "color": dynamicColors() })
-    datasets.push({
-      label: element.package,
-      data: element.downloads.map((item: any) => item.downloads),
-      fill: true,
-      backgroundColor: element.color,
-      borderColor: element.color,
-      lineTension: 0.4,
-    })
+    if (element === null) {
+      chartError = true
+      chartErrorCode = 404
+    }
+    else {
+      Object.assign(element, { "color": dynamicColors() })
+      datasets.push({
+        label: element.package,
+        data: element.downloads.map((item: any) => item.downloads),
+        fill: true,
+        backgroundColor: element.color,
+        borderColor: element.color,
+        lineTension: 0.4,
+      })
+    }
   });
 
   const data = {
@@ -157,7 +158,7 @@ const Main = ({ heading, chartData, packageData, error, errorCode, errorMessage,
         <div className='flex flex-col gap-12'>
           <div className="flex flex-col">
             <h1 className='text-4xl font-normal'>{heading}</h1>
-            <div className="flex flex-col items-center justify-center w-4/5 border border-transparent rounded-md mt-2 mb-2 md:w-full md:pr-2">
+            <div className="flex flex-col items-center justify-center w-4/5 border border-transparent rounded-md mt-4 mb-2 md:w-full md:pr-2">
               <form onSubmit={submitHandler} className='w-full'>
                 <div className="flex w-full flex-col border-2 rounded-lg pt-2 mt-2 border-blue-500">
                   <div className="flex flex-row gap-2">
