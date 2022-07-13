@@ -4,64 +4,16 @@ import { useRouter } from 'next/router'
 import Head from 'next/head';
 import { DarkModeSwitch } from 'react-toggle-dark-mode';
 import { useTheme } from 'next-themes'
+import { submitExamples, submitHandler, getNames } from '../utils/utils';
 
 const Home: NextPage = () => {
   const router = useRouter()
   const inputRef = useRef<HTMLInputElement>(null);
-
-  const submitHandler = (e: { preventDefault: () => void; }) => {
-    let arr = inputRef.current!.value.split(' ');
-    arr = arr.filter(e => e !== 'vs');
-    arr = arr.filter(function (value, index, array) {
-      return array.indexOf(value) === index;
-    });
-    arr.forEach((value: string) => {
-      encodeURIComponent(value)
-    })
-    e.preventDefault();
-    if (inputRef.current!.value && arr.length === 1) {
-      router.push({ pathname: `/package/${encodeURIComponent(inputRef.current!.value.toLowerCase())}` },)
-      inputRef.current!.value = '';
-    }
-    else if (inputRef.current!.value && arr.length > 1) {
-      router.push({ pathname: `/packages/${arr}` })
-      inputRef.current!.value = '';
-    }
-  };
-
-  async function getNames(input: string) {
-    setUnderline(true)
-    const response = await fetch(`https://registry.npmjs.org/-/v1/search?text=${input}&size=5`)
-    const data = await response.json();
-    if (input.length > 0) {
-      setNames(data.objects.map((item: { package: { name: any } }) => item.package.name));
-    }
-    else {
-      setNames([]);
-      setUnderline(false)
-    }
+  const submit = (e: any) => {
+    submitHandler(e, inputRef)
   }
   const [names, setNames] = useState([]);
   const [underline, setUnderline] = useState(false);
-
-  const submitExamples = (e: { preventDefault: () => void; }, text: string) => {
-    let arr = text.split(' ');
-    arr = arr.filter(e => e !== 'vs');
-    arr = arr.filter(function (value, index, array) {
-      return array.indexOf(value) === index;
-    });
-    arr.forEach((value: string) => {
-      encodeURIComponent(value)
-    })
-    e.preventDefault();
-    if (text && arr.length === 1) {
-      router.push({ pathname: `/package/${encodeURIComponent(text.toLowerCase())}` })
-    }
-    else if (text && arr.length > 1) {
-      router.push({ pathname: `/packages/${arr}` })
-    }
-  };
-
   const { theme, setTheme } = useTheme()
   const [mounted, setMounted] = useState(false);
   const [darkMode, setDarkMode] = useState(theme === 'light' ? true : false);
@@ -102,10 +54,10 @@ const Home: NextPage = () => {
           Examples: <span className='cursor-pointer text-blue-500 hover:underline' onClick={(e) => { submitExamples(e, e.currentTarget.innerText) }}>react</span>, <span className='cursor-pointer text-blue-500 hover:underline' onClick={(e) => { submitExamples(e, e.currentTarget.innerText) }}>redux</span>, <span className='cursor-pointer text-blue-500 hover:underline' onClick={(e) => { submitExamples(e, e.currentTarget.innerText) }}>vue</span>, <span className='cursor-pointer text-blue-500 hover:underline' onClick={(e) => { submitExamples(e, e.currentTarget.innerText) }}>next</span>
         </p>
         <div className="flex flex-col items-center justify-center w-4/5 border border-transparent rounded-md mt-2 mb-2 md:w-full md:pr-2">
-          <form onSubmit={submitHandler} className='w-full'>
+          <form onSubmit={submit} className='w-full'>
             <div className="flex w-full flex-col border-2 rounded-lg pt-2 border-blue-500">
               <div className="flex flex-row gap-2">
-                <input type="search" ref={inputRef} autoComplete="off" className="focus:border-gray-400 rounded-lg w-full px-3 pb-2 text-base font-normal dark:text-white dark:bg-transparent focus:outline-none" placeholder="Enter a NPM package" aria-label="Search" aria-describedby="button-addon3" spellCheck='false' onChange={(e) => getNames(e.target.value)}></input>
+                <input type="search" ref={inputRef} autoComplete="off" className="focus:border-gray-400 rounded-lg w-full px-3 pb-2 text-base font-normal dark:text-white dark:bg-transparent focus:outline-none" placeholder="Enter a NPM package" aria-label="Search" aria-describedby="button-addon3" spellCheck='false' onChange={(e) => getNames(e.target.value, setUnderline, setNames)}></input>
               </div>
               <div className={`w-full h-0.5 bg-blue-500 ${underline ? "flex" : "hidden"}`}></div>
               <ul className='w-full'>

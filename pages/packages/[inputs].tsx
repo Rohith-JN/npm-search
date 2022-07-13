@@ -1,5 +1,4 @@
 import React, { useRef, useState } from 'react';
-import { useRouter } from "next/router"
 import Head from 'next/head';
 import moment from 'moment';
 import Error from '../../components/Error';
@@ -17,7 +16,8 @@ import { Line } from 'react-chartjs-2';
 import { FaGithub, FaNpm } from 'react-icons/fa';
 import { IoLinkOutline } from 'react-icons/io5'
 import { dynamicColors } from '../../utils/utils';
-import { useTheme } from 'next-themes'
+import { useTheme } from 'next-themes';
+import { getNames, submitExamples, submitHandler } from '../../utils/utils';
 
 ChartJS.register(
   CategoryScale,
@@ -82,63 +82,13 @@ export const getServerSideProps = async (context: { params: { inputs: string; };
 }
 
 const Main = ({ heading, chartData, packageData, error, errorCode, errorMessage, chartError, chartErrorCode, chartErrorMessage, labels, datasets }: { heading: string, chartData: any, packageData: any, error: boolean, errorCode: number, errorMessage: string, labels: Array<number>, chartError: boolean, chartErrorCode: number, chartErrorMessage: string, datasets: any }) => {
-  const router = useRouter();
   const [names, setNames] = useState([]);
   const [underline, setUnderline] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
-
-  async function getNames(input: string) {
-    setUnderline(true)
-    const response = await fetch(`https://registry.npmjs.org/-/v1/search?text=${input}&size=5`)
-    const data = await response.json();
-    if (input.length > 0) {
-      setNames(data.objects.map((item: { package: { name: any } }) => item.package.name));
-    }
-    else {
-      setNames([]);
-      setUnderline(false)
-    }
-  }
-
-  const submitExamples = (e: { preventDefault: () => void; }, text: string) => {
-    let arr = text.split(' ');
-    arr = arr.filter(e => e !== 'vs');
-    arr = arr.filter(function (value, index, array) {
-      return array.indexOf(value) === index;
-    });
-    arr.forEach((value: string) => {
-      encodeURIComponent(value)
-    })
-    e.preventDefault();
-    if (text && arr.length === 1) {
-      router.push({ pathname: `/package/${encodeURIComponent(text.toLowerCase())}` })
-    }
-    else if (text && arr.length > 1) {
-      router.push({ pathname: `/packages/${arr}` },)
-    }
-  };
-
-  const submitHandler = (e: { preventDefault: () => void; }) => {
-    let arr = inputRef.current!.value.split(' ');
-    arr = arr.filter(e => e !== 'vs');
-    arr = arr.filter(function (value, index, array) {
-      return array.indexOf(value) === index;
-    });
-    arr.forEach((value: string) => {
-      encodeURIComponent(value)
-    })
-    e.preventDefault();
-    if (inputRef.current!.value && arr.length === 1) {
-      router.push({ pathname: `/package/${encodeURIComponent(inputRef.current!.value.toLowerCase())}` },)
-      inputRef.current!.value = '';
-    }
-    else if (inputRef.current!.value && arr.length > 1) {
-      router.push({ pathname: `/packages/${arr}` },)
-      inputRef.current!.value = '';
-    }
-  };
-
   const { theme, setTheme } = useTheme()
+  const submit = (e: any) => {
+    submitHandler(e, inputRef)
+  }
 
   const options: any = {
     tooltips: {
@@ -201,10 +151,10 @@ const Main = ({ heading, chartData, packageData, error, errorCode, errorMessage,
           <div className="flex flex-col">
             <h1 className='text-4xl font-normal'>{heading}</h1>
             <div className="flex flex-col items-center justify-center w-4/5 border border-transparent rounded-md mt-4 mb-2 md:w-full md:pr-2">
-              <form onSubmit={submitHandler} className='w-full'>
+              <form onSubmit={submit} className='w-full'>
                 <div className="flex w-full flex-col border-2 rounded-lg pt-2 mt-2 border-blue-500">
                   <div className="flex flex-row gap-2">
-                    <input type="search" ref={inputRef} autoComplete="off" className="focus:border-gray-400 rounded-lg w-full px-3 pb-2 text-base font-normal dark:text-white dark:bg-transparent focus:outline-none" placeholder="Enter a NPM package" aria-label="Search" aria-describedby="button-addon3" spellCheck='false' onChange={(e) => getNames(e.target.value)}></input>
+                    <input type="search" ref={inputRef} autoComplete="off" className="focus:border-gray-400 rounded-lg w-full px-3 pb-2 text-base font-normal dark:text-white dark:bg-transparent focus:outline-none" placeholder="Enter a NPM package" aria-label="Search" aria-describedby="button-addon3" spellCheck='false' onChange={(e) => getNames(e.target.value, setUnderline, setNames)}></input>
                   </div>
                   <div className={`w-full h-0.5 bg-blue-500 ${underline ? "flex" : "hidden"}`}></div>
                   <ul className='w-full'>
@@ -218,7 +168,7 @@ const Main = ({ heading, chartData, packageData, error, errorCode, errorMessage,
           </div>
           <div>
             <div className="w-5/6 h-96 lg:w-full lg:pr-4">
-              <p className='text-2xl mb-6'>Downloads in the past 1 week</p>
+              <p className='text-2xl mb-6'>Downloads in past week</p>
               <Line options={options} data={data} />
             </div>
           </div>
