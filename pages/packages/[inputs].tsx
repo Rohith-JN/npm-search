@@ -196,6 +196,8 @@ const Main = ({ heading, chartData, packageData, error, errorCode, errorMessage,
       <div className="min-h-screen w-full md:pl-4 pl-32 pt-10 pb-12 pr-2 bg-white dark:bg-gray-900">
         <Head>
           <title>{heading}</title>
+          <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2343309034894370"
+            crossOrigin="anonymous"></script>
         </Head>
         <div className='flex flex-col gap-12'>
           <div className="flex flex-col">

@@ -83,6 +83,8 @@ const Home: NextPage = () => {
     <div className="bg-white dark:bg-gray-900 w-full min-h-screen pb-10 flex pl-32 pt-11 md:pl-4 pr-2" id="Home">
       <Head>
         <title>npm search | Home</title>
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2343309034894370"
+          crossOrigin="anonymous"></script>
       </Head>
       <div className="flex flex-col gap-0 w-full">
         <div className="flex flex-row items-center justify-between pr-3">
