@@ -10,7 +10,7 @@ const FAQ: FC = () => {
         "What tech stack was used to build this site?": "This site was built using Next.js, React, TypeScript and Tailwind CSS"
     }
     return (
-        <div className="pl-16 py-24 mx-auto w-full h-screen bg-white dark:bg-gray-900 md:pl-0">
+        <div className="pl-16 py-24 md:py-10 mx-auto w-full h-screen bg-white dark:bg-gray-900 md:pl-0">
             <Head>
                 <title>npm search | FAQ</title>
             </Head>

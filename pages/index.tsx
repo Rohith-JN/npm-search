@@ -96,7 +96,7 @@ const Home: NextPage = () => {
           />
         </div>
         <p className='dark:text-slate-400 text-3xl font-normal mt-6 tracking-wide xmd:text-2xl'>
-          Search and view package stats to find the right one for your project
+          Search and view package stats to find the right one for your project. <span className="mmd:hidden text-blue-500 cursor-pointer hover:underline" onClick={() => router.push("/FAQ")}>FAQs</span>
         </p>
         <p className="dark:text-slate-400 text-lg tracking-widest mt-6">
           Examples: <span className='cursor-pointer text-blue-500 hover:underline' onClick={(e) => { submitExamples(e, e.currentTarget.innerText) }}>react</span>, <span className='cursor-pointer text-blue-500 hover:underline' onClick={(e) => { submitExamples(e, e.currentTarget.innerText) }}>redux</span>, <span className='cursor-pointer text-blue-500 hover:underline' onClick={(e) => { submitExamples(e, e.currentTarget.innerText) }}>vue</span>, <span className='cursor-pointer text-blue-500 hover:underline' onClick={(e) => { submitExamples(e, e.currentTarget.innerText) }}>next</span>
@@ -119,10 +119,9 @@ const Home: NextPage = () => {
         <p className='dark:text-slate-400 text-2xl mt-3'>Popular examples</p>
         <p className="text-blue-500 text-lg tracking-widest mt-4 cursor-pointer hover:underline" onClick={(e) => { submitExamples(e, e.currentTarget.innerText) }}>
           react vs svelte vs vue</p>
-        <p className="text-blue-500 text-lg tracking-widest cursor-pointer hover:underline" onClick={(e) => { submitExamples(e, e.currentTarget.innerText) }}>react vs vue</p>
         <p className="text-blue-500 text-lg tracking-widest cursor-pointer hover:underline" onClick={(e) => { submitExamples(e, e.currentTarget.innerText) }}>redux vs recoil</p>
-        <p className="text-blue-500 text-lg tracking-widest xmd:hidden cursor-pointer hover:underline" onClick={(e) => { submitExamples(e, e.currentTarget.innerText) }}>react-bootstrap vs reactstrap</p>
-        <p className="text-blue-500 text-lg tracking-widest xmd:hidden cursor-pointer hover:underline" onClick={(e) => { submitExamples(e, e.currentTarget.innerText) }}>next vs nuxt</p>
+        <p className="text-blue-500 text-lg tracking-widest cursor-pointer hover:underline" onClick={(e) => { submitExamples(e, e.currentTarget.innerText) }}>react-bootstrap vs reactstrap</p>
+        <p className="text-blue-500 text-lg tracking-widest cursor-pointer hover:underline" onClick={(e) => { submitExamples(e, e.currentTarget.innerText) }}>next vs nuxt</p>
       </div>
     </div>
   )

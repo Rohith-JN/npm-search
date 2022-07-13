@@ -8,7 +8,7 @@ const Error = ({ statusCode, statusMessage }: { statusCode: number, statusMessag
       <Head>
         <title>npm search | Error</title>
       </Head>
-      <div className="container flex flex-col items-center justify-center px-5 mx-auto md:pl-16 my-8">
+      <div className="container flex flex-col items-center justify-center px-5 mx-auto my-8">
         <div className="max-w-md text-center">
           <h2 className="mb-8 font-extrabold text-9xl xmd:text-8xl dark:text-gray-600">
             <span className="sr-only">Error</span>
